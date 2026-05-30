@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'package:flutter_aplication_1/core/constants/app_colors.dart';
+import 'package:keluhin_mobile_app/core/constants/app_colors.dart';
 
 class CustomButton extends StatelessWidget {
   final String text;

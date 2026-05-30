@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
-import 'package:flutter_aplication_1/core/constants/app_colors.dart';
-import 'package:flutter_aplication_1/core/constants/app_text.dart';
-import 'package:flutter_aplication_1/core/utils/helper.dart';
+import 'package:keluhin_mobile_app/core/constants/app_colors.dart';
+import 'package:keluhin_mobile_app/core/constants/app_text.dart';
+import 'package:keluhin_mobile_app/core/utils/helper.dart';
 import '../../core/utils/storage.dart';
 
 import '../../data/repositories/profile_repository.dart';

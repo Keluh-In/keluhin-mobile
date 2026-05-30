@@ -2,85 +2,69 @@ import 'package:flutter/material.dart';
 
 class StatCard extends StatelessWidget {
   final String title;
-
-  final String total;
-
-  final Color color;
-
+  final String value;
   final IconData icon;
+  final Color iconColor;
+  final Color iconBgColor;
 
   const StatCard({
     super.key,
     required this.title,
-    required this.total,
-    required this.color,
+    required this.value,
     required this.icon,
+    required this.iconColor,
+    required this.iconBgColor,
   });
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.all(18),
-
-      decoration: BoxDecoration(
-        color: Colors.white,
-
-        borderRadius:
-            BorderRadius.circular(18),
-
-        boxShadow: [
-          BoxShadow(
-            color:
-                // ignore: deprecated_member_use
-                Colors.grey.withOpacity(
-              0.1,
+    return Card(
+      elevation: 2,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+      child: Padding(
+        padding: const EdgeInsets.all(12.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween, // Membagi ruang atas & bawah rata
+          children: [
+            // Lingkaran Icon
+            Container(
+              padding: const EdgeInsets.all(8),
+              decoration: BoxDecoration(
+                color: iconBgColor,
+                shape: BoxShape.circle,
+              ),
+              child: Icon(icon, color: iconColor, size: 24),
             ),
-            blurRadius: 10,
-            offset: const Offset(0, 4),
-          ),
-        ],
-      ),
-
-      child: Column(
-        crossAxisAlignment:
-            CrossAxisAlignment.start,
-
-        children: [
-          CircleAvatar(
-            radius: 22,
-
-            backgroundColor:
-                // ignore: deprecated_member_use
-                color.withOpacity(0.12),
-
-            child: Icon(
-              icon,
-              color: color,
-              size: 24,
+            const SizedBox(height: 8),
+            // Angka Statistik & Judul dibungkus Flexible agar anti-overflow
+            Flexible(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text(
+                    value,
+                    style: const TextStyle(
+                      fontSize: 22,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  const SizedBox(height: 2),
+                  Text(
+                    title,
+                    style: TextStyle(
+                      fontSize: 12,
+                      color: Colors.grey.shade600,
+                    ),
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis, // Jika teks kepanjangan otomatis jadi titik-titik (...)
+                  ),
+                ],
+              ),
             ),
-          ),
-
-          const Spacer(),
-
-          Text(
-            total,
-            style: const TextStyle(
-              fontSize: 28,
-              fontWeight:
-                  FontWeight.bold,
-            ),
-          ),
-
-          const SizedBox(height: 6),
-
-          Text(
-            title,
-            style: TextStyle(
-              color: Colors.grey.shade700,
-              fontSize: 14,
-            ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

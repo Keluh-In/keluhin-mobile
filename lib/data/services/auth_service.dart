@@ -7,117 +7,111 @@ import '../../core/utils/storage.dart';
 class AuthService {
   final Dio dio = Dio();
 
-  // =========================
-  // LOGIN
-  // =========================
-Future<bool> login({
-  required String email,
-  required String password,
-}) async {
-  try {
-    final response = await dio.post(
-      ApiConfig.login,
-      data: {
-        'email': email,
-        'password': password,
-      },
-    );
+  // ==========================================
+  // FUNGSI LOGIN
+  // ==========================================
+  Future<bool> login({
+    required String email,
+    required String password,
+  }) async {
+    try {
+      if (kDebugMode) {
+        debugPrint('LOGIN START');
+      }
 
-    print('LOGIN RESPONSE:');
-    print(response.data);
+      final response = await dio.post(
+        ApiConfig.login,
+        data: {
+          'email': email,
+          'password': password,
+        },
+      );
 
-    final token =
-        response.data['data']['token'];
+      // Mengambil token dari response JSON Laravel (Struktur: data -> token)
+      final token = response.data['data']['token'];
 
-    print('TOKEN: $token');
+      if (kDebugMode) {
+        debugPrint('LOGIN SUCCESS. TOKEN: $token');
+      }
 
-    await Storage.saveToken(token);
+      // Menyimpan token ke penyimpanan lokal (Shared Preferences / Secure Storage)
+      await Storage.saveToken(token);
 
-    return true;
-  } on DioException catch (e) {
-    print('LOGIN DIO ERROR');
-
-    print(e.response?.statusCode);
-
-    print(e.response?.data);
-
-    return false;
-  } catch (e) {
-    print('LOGIN ERROR');
-
-    print(e);
-
-    return false;
+      return true;
+    } on DioException catch (e) {
+      if (kDebugMode) {
+        debugPrint('LOGIN DIO ERROR');
+        debugPrint('Status Code: ${e.response?.statusCode}');
+        debugPrint('Response Data: ${e.response?.data}');
+      }
+      return false;
+    } catch (e) {
+      if (kDebugMode) {
+        debugPrint('LOGIN ERROR');
+        debugPrint(e.toString());
+      }
+      return false;
+    }
   }
-}
 
-  // =========================
-  // REGISTER
-  // =========================
+  // ==========================================
+  // FUNGSI REGISTER
+  // ==========================================
   Future<bool> register({
-  required String name,
-  required String email,
-  required String password,
-}) async {
-  try {
-    if (kDebugMode) {
-      print('REGISTER START');
-    }
+    required String name,
+    required String email,
+    required String password,
+  }) async {
+    try {
+      if (kDebugMode) {
+        debugPrint('REGISTER START');
+      }
 
-    final response = await dio.post(
-      ApiConfig.register,
-      data: {
-        'name': name,
-        'email': email,
-        'password': password,
-        'password_confirmation':
-            password,
-      },
-    );
+      final response = await dio.post(
+        ApiConfig.register,
+        data: {
+          'name': name,
+          'email': email,
+          'password': password,
+          'password_confirmation': password, // Mengisi password konfirmasi otomatis sama dengan password
+        },
+      );
 
-    if (kDebugMode) {
-      print('SUCCESS');
-    }
-    if (kDebugMode) {
-      print(response.data);
-    }
+      // Otomatis mengambil token dari register jika ingin langsung masuk ke halaman utama setelah daftar
+      final token = response.data['data']['token'];
 
-    return true;
-  } on DioException catch (e) {
-    if (kDebugMode) {
-      print('DIO ERROR');
-    }
+      if (kDebugMode) {
+        debugPrint('REGISTER SUCCESS. TOKEN: $token');
+      }
 
-    if (kDebugMode) {
-      print(e.message);
-    }
+      // Menyimpan token pendaftaran ke penyimpanan lokal
+      await Storage.saveToken(token);
 
-    if (kDebugMode) {
-      print(e.response?.statusCode);
+      return true;
+    } on DioException catch (e) {
+      if (kDebugMode) {
+        debugPrint('REGISTER DIO ERROR');
+        debugPrint(e.message);
+        debugPrint('Status Code: ${e.response?.statusCode}');
+        debugPrint('Response Data: ${e.response?.data}');
+      }
+      return false;
+    } catch (e) {
+      if (kDebugMode) {
+        debugPrint('REGISTER ERROR');
+        debugPrint(e.toString());
+      }
+      return false;
     }
-
-    if (kDebugMode) {
-      print(e.response?.data);
-    }
-
-    return false;
-  } catch (e) {
-    if (kDebugMode) {
-      print('ERROR');
-    }
-
-    if (kDebugMode) {
-      print(e);
-    }
-
-    return false;
   }
-}
 
-  // =========================
-  // LOGOUT
-  // =========================
+  // ==========================================
+  // FUNGSI LOGOUT
+  // ==========================================
   Future<void> logout() async {
     await Storage.logout();
+    if (kDebugMode) {
+      debugPrint('LOGOUT SUCCESS (Token Cleared)');
+    }
   }
 }
