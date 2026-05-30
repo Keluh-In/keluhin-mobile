@@ -1,6 +1,6 @@
 class ApiConfig {
   // BASE URL -> Tambahkan :8000 di belakang IP
-  static const String baseUrl = 'http://10.0.2.2:8000/api';
+  static const String baseUrl = 'https://9695-118-99-73-135.ngrok-free.app/api';
 
   // AUTH
   static const String login = '$baseUrl/login';
