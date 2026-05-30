@@ -1,6 +1,6 @@
 class ApiConfig {
   // BASE URL -> Tambahkan :8000 di belakang IP
-  static const String baseUrl = 'http://192.168.100.202:8000/api';
+  static const String baseUrl = 'http://10.0.2.2:8000/api';
 
   // AUTH
   static const String login = '$baseUrl/login';
