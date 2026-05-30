@@ -190,21 +190,21 @@ class _DashboardContentTabState extends State<DashboardContentTab> {
 
     return Scaffold(
       backgroundColor: AppColors.background,
-      floatingActionButton: FloatingActionButton(
-        backgroundColor: AppColors.primary,
-        child: const Icon(Icons.add_comment_rounded, color: Colors.white),
-        onPressed: () {
-          // Simulasi memicu fungsi kirim instan dengan Named Arguments yang valid
-          uploadPengaduanInstan(
-            title: 'Fasilitas Rusak di Lab',
-            description: 'Pendingin ruangan mati membuat ruangan pengap.',
-            categoryId: 1,
-            location: 'Gedung Laboratorium Komputer lantai 2',
-            isAnonymous: false,
-            categoryName: 'Infrastruktur',
-          );
-        },
-      ),
+      // floatingActionButton: FloatingActionButton(
+      //   backgroundColor: AppColors.primary,
+      //   child: const Icon(Icons.add_comment_rounded, color: Colors.white),
+      //   onPressed: () {
+      //     // Simulasi memicu fungsi kirim instan dengan Named Arguments yang valid
+      //     uploadPengaduanInstan(
+      //       title: 'Fasilitas Rusak di Lab',
+      //       description: 'Pendingin ruangan mati membuat ruangan pengap.',
+      //       categoryId: 1,
+      //       location: 'Gedung Laboratorium Komputer lantai 2',
+      //       isAnonymous: false,
+      //       categoryName: 'Infrastruktur',
+      //     );
+      //   },
+      // ),
       body: RefreshIndicator(
         onRefresh: () => getDashboardData(),
         child: SingleChildScrollView(
