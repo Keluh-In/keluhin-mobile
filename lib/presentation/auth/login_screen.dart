@@ -21,7 +21,8 @@ class _LoginScreenState extends State<LoginScreen> {
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
 
-  bool loading = false;
+bool loading = false;
+bool isPasswordHidden = true;
 
   final AuthRepository repository = AuthRepository();
 
@@ -58,6 +59,12 @@ class _LoginScreenState extends State<LoginScreen> {
     }
   }
 
+@override
+void dispose() {
+  emailController.dispose();
+  passwordController.dispose();
+  super.dispose();
+}
 
   @override
   Widget build(BuildContext context) {
@@ -86,12 +93,25 @@ class _LoginScreenState extends State<LoginScreen> {
             ),
             const SizedBox(height: AppSpacing.space4),
             TextField(
-              controller: passwordController,
-              obscureText: true,
-              decoration: const InputDecoration(
-                labelText: 'Password',
-              ),
-            ),
+  controller: passwordController,
+  obscureText: isPasswordHidden,
+  decoration: InputDecoration(
+    labelText: 'Password',
+    suffixIcon: IconButton(
+      icon: Icon(
+        isPasswordHidden
+            ? Icons.visibility_off
+            : Icons.visibility,
+      ),
+      onPressed: () {
+        setState(() {
+          isPasswordHidden =
+              !isPasswordHidden;
+        });
+      },
+    ),
+  ),
+),
             const SizedBox(height: AppSpacing.space6),
             SizedBox(
               width: double.infinity,

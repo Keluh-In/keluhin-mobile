@@ -34,6 +34,7 @@ class _EditProfileScreenState
       TextEditingController();
 
   bool loading = false;
+  bool isPasswordHidden = true;
 
   final ProfileRepository repository =
       ProfileRepository();
@@ -109,6 +110,13 @@ class _EditProfileScreenState
       prefixIcon: Icon(icon),
     );
   }
+@override
+void dispose() {
+  nameController.dispose();
+  emailController.dispose();
+  passwordController.dispose();
+  super.dispose();
+}
 
   @override
   Widget build(BuildContext context) {
@@ -172,15 +180,30 @@ class _EditProfileScreenState
 
             const SizedBox(height: AppSpacing.space5),
 
-            // PASSWORD
-            TextField(
-              controller: passwordController,
-              obscureText: true,
-              decoration: decoration(
-                'Password Baru (Opsional)',
-                Icons.lock,
-              ),
-            ),
+// PASSWORD
+TextField(
+  controller: passwordController,
+  obscureText: isPasswordHidden,
+  decoration: InputDecoration(
+    labelText: 'Password Baru (Opsional)',
+    prefixIcon: const Icon(
+      Icons.lock,
+    ),
+    suffixIcon: IconButton(
+      icon: Icon(
+        isPasswordHidden
+            ? Icons.visibility_off
+            : Icons.visibility,
+      ),
+      onPressed: () {
+        setState(() {
+          isPasswordHidden =
+              !isPasswordHidden;
+        });
+      },
+    ),
+  ),
+),
 
             const SizedBox(height: AppSpacing.space8),
 
