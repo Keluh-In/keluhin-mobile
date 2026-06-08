@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 import '../constants/app_colors.dart';
+import '../constants/app_status.dart';
 
 class Helper {
   // FORMAT DATE
@@ -27,16 +28,16 @@ class Helper {
     String status,
   ) {
     switch (status.toLowerCase()) {
-      case 'menunggu':
+      case AppStatus.menunggu:
         return AppColors.warning;
 
-      case 'diproses':
+      case AppStatus.diproses:
         return AppColors.info;
 
-      case 'selesai':
+      case AppStatus.selesai:
         return AppColors.success;
 
-      case 'ditolak':
+      case AppStatus.ditolak:
         return AppColors.danger;
 
       default:

@@ -6,8 +6,6 @@ import 'app_colors.dart';
 /// Token tipografi Keluh In — Poppins. Skala mengikuti design system.
 /// height = line-height / font-size.
 class AppTypography {
-  static const String fontFamily = 'Poppins';
-
   static const FontWeight regular = FontWeight.w400;
   static const FontWeight medium = FontWeight.w500;
   static const FontWeight semibold = FontWeight.w600;
@@ -30,8 +28,9 @@ class AppTypography {
   static TextStyle get caption => _base(12, 18, medium);
   static TextStyle get button => _base(16, 24, semibold);
 
-  /// TextTheme untuk ThemeData.
-  static TextTheme textTheme = TextTheme(
+  /// TextTheme untuk ThemeData. Dibungkus poppinsTextTheme agar slot
+  /// yang tak dipetakan eksplisit pun tetap Poppins (bukan fallback Roboto).
+  static TextTheme textTheme = GoogleFonts.poppinsTextTheme().copyWith(
     displayLarge: display,
     headlineLarge: heading1,
     headlineMedium: heading2,

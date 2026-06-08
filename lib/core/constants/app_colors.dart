@@ -1,51 +1,50 @@
 import 'package:flutter/material.dart';
 
-/// Token warna Keluh In Design System v1.0.
+/// Token warna Keluh In Design System (Mobile / Flutter) — bagian 2.
 /// Sumber tunggal — dilarang hardcode hex di luar file ini.
 class AppColors {
-  // ── PRIMARY — Blue ────────────────────────────────────────────
-  static const Color blue50 = Color(0xFFEEF3FE);
-  static const Color blue100 = Color(0xFFD8E3FD);
-  static const Color blue200 = Color(0xFFB3C7FB);
-  static const Color blue300 = Color(0xFF84A3F8);
-  static const Color blue400 = Color(0xFF527CF4);
-  static const Color blue500 = Color(0xFF2B63F0); // Primary
-  static const Color blue600 = Color(0xFF1E4FD4); // Hover / pressed
-  static const Color blue700 = Color(0xFF1A41AB);
-  static const Color blue800 = Color(0xFF173681);
-  static const Color blue900 = Color(0xFF142B5E);
+  // ── PRIMARY — Blue (brand #2563EB) ────────────────────────────
+  static const Color blue50 = Color(0xFFEFF6FF);
+  static const Color blue100 = Color(0xFFDBEAFE);
+  static const Color blue200 = Color(0xFFBFDBFE);
+  static const Color blue300 = Color(0xFF93C5FD);
+  static const Color blue400 = Color(0xFF60A5FA);
+  static const Color blue500 = Color(0xFF2563EB); // Primary
+  static const Color blue600 = Color(0xFF1D4ED8); // Hover / pressed
+  static const Color blue700 = Color(0xFF1E40AF);
+  static const Color blue800 = Color(0xFF1E3A8A);
+  static const Color blue900 = Color(0xFF172554);
 
   // ── NEUTRAL — Ink ─────────────────────────────────────────────
   static const Color ink0 = Color(0xFFFFFFFF);
-  static const Color ink50 = Color(0xFFF6F8FB);
-  static const Color ink100 = Color(0xFFEDF1F6);
-  static const Color ink200 = Color(0xFFDCE3EC);
-  static const Color ink300 = Color(0xFFC2CCD9);
-  static const Color ink400 = Color(0xFF9AA7B8);
-  static const Color ink500 = Color(0xFF708096);
-  static const Color ink600 = Color(0xFF4E5C70);
-  static const Color ink700 = Color(0xFF344256);
-  static const Color ink800 = Color(0xFF20293B);
-  static const Color ink900 = Color(0xFF18233D);
-  static const Color ink950 = Color(0xFF0E1626);
+  static const Color ink50 = Color(0xFFF7F9FB);
+  static const Color ink100 = Color(0xFFEDF1F5);
+  static const Color ink200 = Color(0xFFE5E7EB);
+  static const Color ink300 = Color(0xFFD1D5DB);
+  static const Color ink400 = Color(0xFF94A3B8);
+  static const Color ink500 = Color(0xFF6B7280);
+  static const Color ink600 = Color(0xFF4B5563);
+  static const Color ink700 = Color(0xFF374151);
+  static const Color ink800 = Color(0xFF1F2937);
+  static const Color ink900 = Color(0xFF111827);
 
   // ── SEMANTIC — Status (core / bg / text) ──────────────────────
-  // Info / Baru
-  static const Color baru = Color(0xFF2B63F0);
-  static const Color baruBg = Color(0xFFEEF3FE);
-  static const Color baruText = Color(0xFF1A41AB);
-  // Warning / Diproses
-  static const Color proses = Color(0xFFF59E0B);
-  static const Color prosesBg = Color(0xFFFEF3E2);
-  static const Color prosesText = Color(0xFFB45309);
-  // Success / Selesai
+  // Menunggu (Amber)
+  static const Color menunggu = Color(0xFFF59E0B);
+  static const Color menungguBg = Color(0xFFFFF7ED);
+  static const Color menungguText = Color(0xFFC2410C);
+  // Diproses (Blue)
+  static const Color diproses = Color(0xFF2563EB);
+  static const Color diprosesBg = Color(0xFFEEF6FF);
+  static const Color diprosesText = Color(0xFF1D4ED8);
+  // Selesai (Green)
   static const Color selesai = Color(0xFF16A34A);
-  static const Color selesaiBg = Color(0xFFE7F6EC);
-  static const Color selesaiText = Color(0xFF0F7A37);
-  // Danger / Ditolak
+  static const Color selesaiBg = Color(0xFFECFDF5);
+  static const Color selesaiText = Color(0xFF047857);
+  // Ditolak (Red)
   static const Color ditolak = Color(0xFFE23D3D);
-  static const Color ditolakBg = Color(0xFFFCEAEA);
-  static const Color ditolakText = Color(0xFFB42318);
+  static const Color ditolakBg = Color(0xFFFEF2F2);
+  static const Color ditolakText = Color(0xFFB91C1C);
 
   // ── ALIAS SEMANTIK (kompat & keterbacaan) ─────────────────────
   static const Color primary = blue500;
@@ -69,7 +68,7 @@ class AppColors {
 
   // Status alias (mapping warna app dipertahankan via Helper)
   static const Color success = selesai;
-  static const Color warning = proses;
+  static const Color warning = menunggu;
   static const Color danger = ditolak;
-  static const Color info = baru;
+  static const Color info = diproses;
 }

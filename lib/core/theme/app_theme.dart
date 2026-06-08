@@ -11,7 +11,6 @@ class AppTheme {
 
     scaffoldBackgroundColor: AppColors.background,
     primaryColor: AppColors.primary,
-    fontFamily: AppTypography.fontFamily,
     textTheme: AppTypography.textTheme,
 
     colorScheme: ColorScheme.fromSeed(
