@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../core/constants/app_colors.dart';
+import '../../core/constants/app_spacing.dart';
 import '../../core/utils/helper.dart';
 
 import '../../data/services/category_service.dart';
@@ -148,15 +149,10 @@ class _EditComplaintScreenState
     String label,
     IconData icon,
   ) {
+    // Border/radius mengikuti inputDecorationTheme (token radius-md).
     return InputDecoration(
       labelText: label,
-
       prefixIcon: Icon(icon),
-
-      border: OutlineInputBorder(
-        borderRadius:
-            BorderRadius.circular(12),
-      ),
     );
   }
 
@@ -174,7 +170,7 @@ class _EditComplaintScreenState
 
       body: SingleChildScrollView(
         padding:
-            const EdgeInsets.all(20),
+            const EdgeInsets.all(AppSpacing.space5),
 
         child: Column(
           children: [
@@ -188,7 +184,7 @@ class _EditComplaintScreenState
               ),
             ),
 
-            const SizedBox(height: 20),
+            const SizedBox(height: AppSpacing.space5),
 
             DropdownButtonFormField<int>(
               initialValue: selectedCategory,
@@ -219,7 +215,7 @@ class _EditComplaintScreenState
               },
             ),
 
-            const SizedBox(height: 20),
+            const SizedBox(height: AppSpacing.space5),
 
             TextField(
               controller:
@@ -233,7 +229,7 @@ class _EditComplaintScreenState
               ),
             ),
 
-            const SizedBox(height: 20),
+            const SizedBox(height: AppSpacing.space5),
 
             TextField(
               controller:
@@ -245,27 +241,22 @@ class _EditComplaintScreenState
               ),
             ),
 
-            const SizedBox(height: 35),
+            const SizedBox(height: AppSpacing.space8),
 
             SizedBox(
               width: double.infinity,
-              height: 55,
-
               child: ElevatedButton(
-                onPressed:
-                    loading
-                        ? null
-                        : updateComplaint,
-
-                child:
-                    loading
-                        ? const CircularProgressIndicator(
-                          color:
-                              Colors.white,
-                        )
-                        : const Text(
-                          'Update Pengaduan',
+                onPressed: loading ? null : updateComplaint,
+                child: loading
+                    ? const SizedBox(
+                        height: 20,
+                        width: 20,
+                        child: CircularProgressIndicator(
+                          color: AppColors.white,
+                          strokeWidth: 2,
                         ),
+                      )
+                    : const Text('Update Pengaduan'),
               ),
             ),
           ],

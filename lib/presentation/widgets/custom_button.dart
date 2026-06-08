@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 
 import 'package:keluhin_mobile_app/core/constants/app_colors.dart';
+import 'package:keluhin_mobile_app/core/constants/app_radius.dart';
+import 'package:keluhin_mobile_app/core/constants/app_spacing.dart';
+import 'package:keluhin_mobile_app/core/constants/app_typography.dart';
 
 class CustomButton extends StatelessWidget {
   final String text;
@@ -26,8 +29,8 @@ class CustomButton extends StatelessWidget {
     this.loading = false,
     this.backgroundColor,
     this.textColor,
-    this.height = 55,
-    this.borderRadius = 12,
+    this.height = 52,
+    this.borderRadius = AppRadius.md,
     this.icon,
   });
 
@@ -66,7 +69,7 @@ class CustomButton extends StatelessWidget {
                   child:
                       CircularProgressIndicator(
                     strokeWidth: 2.5,
-                    color: Colors.white,
+                    color: AppColors.white,
                   ),
                 )
                 : Row(
@@ -80,27 +83,20 @@ class CustomButton extends StatelessWidget {
                         icon,
                         color:
                             textColor ??
-                                Colors
-                                    .white,
+                                AppColors.white,
                       ),
 
                       const SizedBox(
-                        width: 8,
+                        width: AppSpacing.space2,
                       ),
                     ],
 
                     Text(
                       text,
-                      style: TextStyle(
+                      style: AppTypography.button.copyWith(
                         color:
                             textColor ??
-                                Colors
-                                    .white,
-
-                        fontSize: 16,
-
-                        fontWeight:
-                            FontWeight.bold,
+                                AppColors.white,
                       ),
                     ),
                   ],

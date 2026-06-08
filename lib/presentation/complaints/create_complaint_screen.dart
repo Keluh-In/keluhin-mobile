@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
 import '../../core/constants/app_colors.dart';
+import '../../core/constants/app_radius.dart';
+import '../../core/constants/app_spacing.dart';
 import '../../core/utils/helper.dart';
 
 import '../../data/services/category_service.dart';
@@ -146,15 +148,10 @@ class _CreateComplaintScreenState
     String label,
     IconData icon,
   ) {
+    // Border/radius mengikuti inputDecorationTheme (token radius-md).
     return InputDecoration(
       labelText: label,
-
       prefixIcon: Icon(icon),
-
-      border: OutlineInputBorder(
-        borderRadius:
-            BorderRadius.circular(12),
-      ),
     );
   }
 
@@ -172,7 +169,7 @@ class _CreateComplaintScreenState
 
       body: SingleChildScrollView(
         padding:
-            const EdgeInsets.all(20),
+            const EdgeInsets.all(AppSpacing.space5),
 
         child: Column(
           children: [
@@ -186,7 +183,7 @@ class _CreateComplaintScreenState
               ),
             ),
 
-            const SizedBox(height: 20),
+            const SizedBox(height: AppSpacing.space5),
 
             DropdownButtonFormField<int>(
               initialValue: selectedCategory,
@@ -217,7 +214,7 @@ class _CreateComplaintScreenState
               },
             ),
 
-            const SizedBox(height: 20),
+            const SizedBox(height: AppSpacing.space5),
 
             TextField(
               controller:
@@ -231,7 +228,7 @@ class _CreateComplaintScreenState
               ),
             ),
 
-            const SizedBox(height: 20),
+            const SizedBox(height: AppSpacing.space5),
 
             TextField(
               controller:
@@ -243,7 +240,7 @@ class _CreateComplaintScreenState
               ),
             ),
 
-            const SizedBox(height: 20),
+            const SizedBox(height: AppSpacing.space5),
 
             SwitchListTile(
               value: isAnonymous,
@@ -262,15 +259,13 @@ class _CreateComplaintScreenState
               },
             ),
 
-            const SizedBox(height: 20),
+            const SizedBox(height: AppSpacing.space5),
 
             // IMAGE
             if (imageFile != null)
               ClipRRect(
                 borderRadius:
-                    BorderRadius.circular(
-                  14,
-                ),
+                    BorderRadius.circular(AppRadius.lg),
 
                 child: Image.file(
                   imageFile!,
@@ -280,7 +275,7 @@ class _CreateComplaintScreenState
                 ),
               ),
 
-            const SizedBox(height: 12),
+            const SizedBox(height: AppSpacing.space3),
 
             SizedBox(
               width: double.infinity,
@@ -298,27 +293,22 @@ class _CreateComplaintScreenState
               ),
             ),
 
-            const SizedBox(height: 35),
+            const SizedBox(height: AppSpacing.space8),
 
             SizedBox(
               width: double.infinity,
-              height: 55,
-
               child: ElevatedButton(
-                onPressed:
-                    loading
-                        ? null
-                        : submitComplaint,
-
-                child:
-                    loading
-                        ? const CircularProgressIndicator(
-                          color:
-                              Colors.white,
-                        )
-                        : const Text(
-                          'Kirim Pengaduan',
+                onPressed: loading ? null : submitComplaint,
+                child: loading
+                    ? const SizedBox(
+                        height: 20,
+                        width: 20,
+                        child: CircularProgressIndicator(
+                          color: AppColors.white,
+                          strokeWidth: 2,
                         ),
+                      )
+                    : const Text('Kirim Pengaduan'),
               ),
             ),
           ],

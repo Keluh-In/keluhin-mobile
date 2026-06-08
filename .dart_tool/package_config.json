@@ -38,6 +38,12 @@
       "languageVersion": "3.8"
     },
     {
+      "name": "crypto",
+      "rootUri": "file:///C:/Users/ACER/AppData/Local/Pub/Cache/hosted/pub.dev/crypto-3.0.7",
+      "packageUri": "lib/",
+      "languageVersion": "3.4"
+    },
+    {
       "name": "cupertino_icons",
       "rootUri": "file:///C:/Users/ACER/AppData/Local/Pub/Cache/hosted/pub.dev/cupertino_icons-1.0.9",
       "packageUri": "lib/",
@@ -160,6 +166,12 @@
     {
       "name": "flutter_web_plugins",
       "rootUri": "file:///C:/flutter/packages/flutter_web_plugins",
+      "packageUri": "lib/",
+      "languageVersion": "3.9"
+    },
+    {
+      "name": "google_fonts",
+      "rootUri": "file:///C:/Users/ACER/AppData/Local/Pub/Cache/hosted/pub.dev/google_fonts-6.3.3",
       "packageUri": "lib/",
       "languageVersion": "3.9"
     },

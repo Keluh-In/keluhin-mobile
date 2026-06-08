@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:keluhin_mobile_app/core/constants/app_colors.dart';
+import 'package:keluhin_mobile_app/core/constants/app_spacing.dart';
 import 'package:keluhin_mobile_app/core/constants/app_text.dart';
+import 'package:keluhin_mobile_app/core/constants/app_typography.dart';
 
 import 'package:keluhin_mobile_app/core/utils/helper.dart';
 
@@ -112,178 +114,95 @@ class _RegisterScreenState
 
       body: SingleChildScrollView(
         padding:
-            const EdgeInsets.all(20),
+            const EdgeInsets.all(AppSpacing.space5),
 
         child: Column(
           crossAxisAlignment:
               CrossAxisAlignment.start,
 
           children: [
-            const SizedBox(height: 20),
+            const SizedBox(height: AppSpacing.space5),
 
-            const Text(
+            Text(
               'Buat Akun Baru',
-              style: TextStyle(
-                fontSize: 28,
-                fontWeight:
-                    FontWeight.bold,
-              ),
+              style: AppTypography.heading2,
             ),
 
-            const SizedBox(height: 10),
+            const SizedBox(height: AppSpacing.space2),
 
-            const Text(
+            Text(
               'Daftar untuk mulai membuat pengaduan',
-              style: TextStyle(
-                color: Colors.grey,
-              ),
+              style: AppTypography.bodySmall
+                  .copyWith(color: AppColors.ink500),
             ),
 
-            const SizedBox(height: 40),
+            const SizedBox(height: AppSpacing.space10),
 
             // NAME
             TextField(
-              controller:
-                  nameController,
-              decoration:
-                  InputDecoration(
-                labelText:
-                    AppText.fullName,
-                prefixIcon:
-                    const Icon(
-                  Icons.person,
-                ),
-                border:
-                    OutlineInputBorder(
-                  borderRadius:
-                      BorderRadius.circular(
-                    12,
-                  ),
-                ),
+              controller: nameController,
+              decoration: const InputDecoration(
+                labelText: AppText.fullName,
+                prefixIcon: Icon(Icons.person),
               ),
             ),
 
-            const SizedBox(height: 20),
+            const SizedBox(height: AppSpacing.space5),
 
             // EMAIL
             TextField(
-              controller:
-                  emailController,
-              keyboardType:
-                  TextInputType
-                      .emailAddress,
-              decoration:
-                  InputDecoration(
-                labelText:
-                    AppText.email,
-                prefixIcon:
-                    const Icon(
-                  Icons.email,
-                ),
-                border:
-                    OutlineInputBorder(
-                  borderRadius:
-                      BorderRadius.circular(
-                    12,
-                  ),
-                ),
+              controller: emailController,
+              keyboardType: TextInputType.emailAddress,
+              decoration: const InputDecoration(
+                labelText: AppText.email,
+                prefixIcon: Icon(Icons.email),
               ),
             ),
 
-            const SizedBox(height: 20),
+            const SizedBox(height: AppSpacing.space5),
 
             // PASSWORD
             TextField(
-              controller:
-                  passwordController,
+              controller: passwordController,
               obscureText: true,
-              decoration:
-                  InputDecoration(
-                labelText:
-                    AppText.password,
-                prefixIcon:
-                    const Icon(
-                  Icons.lock,
-                ),
-                border:
-                    OutlineInputBorder(
-                  borderRadius:
-                      BorderRadius.circular(
-                    12,
-                  ),
-                ),
+              decoration: const InputDecoration(
+                labelText: AppText.password,
+                prefixIcon: Icon(Icons.lock),
               ),
             ),
 
-            const SizedBox(height: 20),
+            const SizedBox(height: AppSpacing.space5),
 
             // CONFIRM PASSWORD
             TextField(
-              controller:
-                  confirmPasswordController,
+              controller: confirmPasswordController,
               obscureText: true,
-              decoration:
-                  InputDecoration(
-                labelText: AppText
-                    .confirmPassword,
-                prefixIcon:
-                    const Icon(
-                  Icons.lock_outline,
-                ),
-                border:
-                    OutlineInputBorder(
-                  borderRadius:
-                      BorderRadius.circular(
-                    12,
-                  ),
-                ),
+              decoration: const InputDecoration(
+                labelText: AppText.confirmPassword,
+                prefixIcon: Icon(Icons.lock_outline),
               ),
             ),
 
-            const SizedBox(height: 30),
+            const SizedBox(height: AppSpacing.space8),
 
             SizedBox(
               width: double.infinity,
-              height: 55,
-
               child: ElevatedButton(
-                style:
-                    ElevatedButton.styleFrom(
-                  backgroundColor:
-                      AppColors.primary,
-                  shape:
-                      RoundedRectangleBorder(
-                    borderRadius:
-                        BorderRadius.circular(
-                      12,
-                    ),
-                  ),
-                ),
-                onPressed:
-                    loading
-                        ? null
-                        : register,
-                child:
-                    loading
-                        ? const CircularProgressIndicator(
-                          color:
-                              Colors.white,
-                        )
-                        : const Text(
-                          AppText.register,
-                          style:
-                              TextStyle(
-                            fontSize:
-                                16,
-                            color:
-                                Colors
-                                    .white,
-                          ),
+                onPressed: loading ? null : register,
+                child: loading
+                    ? const SizedBox(
+                        height: 20,
+                        width: 20,
+                        child: CircularProgressIndicator(
+                          color: AppColors.white,
+                          strokeWidth: 2,
                         ),
+                      )
+                    : const Text(AppText.register),
               ),
             ),
 
-            const SizedBox(height: 25),
+            const SizedBox(height: AppSpacing.space6),
 
             Row(
               mainAxisAlignment:

@@ -1,10 +1,15 @@
 import 'package:flutter/material.dart';
 
 import '../../core/constants/app_colors.dart';
+import '../../core/constants/app_elevation.dart';
+import '../../core/constants/app_radius.dart';
+import '../../core/constants/app_spacing.dart';
 import '../../core/constants/app_text.dart';
+import '../../core/constants/app_typography.dart';
 import '../../data/repositories/complaint_repository.dart';
 import '../complaints/complaint_list_screen.dart';
 import '../profile/profile_screen.dart';
+import '../widgets/status_badge.dart';
 
 // =========================================================================
 // MAIN CONTAINER SCREEN (Mengontrol navigasi tab bawah dengan IndexedStack)
@@ -36,7 +41,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: selectedIndex,
         selectedItemColor: AppColors.primary,
-        unselectedItemColor: Colors.grey,
+        unselectedItemColor: AppColors.ink400,
         type: BottomNavigationBarType.fixed,
         onTap: (index) {
           setState(() {
@@ -164,7 +169,7 @@ class _DashboardContentTabState extends State<DashboardContentTab> {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
             content: Text('Koneksi terputus atau backend error! Pengaduan gagal diupload.'),
-            backgroundColor: Colors.red,
+            backgroundColor: AppColors.danger,
           ),
         );
       }
@@ -209,117 +214,128 @@ class _DashboardContentTabState extends State<DashboardContentTab> {
         onRefresh: () => getDashboardData(),
         child: SingleChildScrollView(
           physics: const AlwaysScrollableScrollPhysics(),
-          padding: const EdgeInsets.fromLTRB(20, 50, 20, 20),
+          padding: const EdgeInsets.fromLTRB(
+            AppSpacing.space5,
+            AppSpacing.space12,
+            AppSpacing.space5,
+            AppSpacing.space5,
+          ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               // HEADER CARD
               Container(
                 width: double.infinity,
-                padding: const EdgeInsets.all(24),
+                padding: const EdgeInsets.all(AppSpacing.space6),
                 decoration: BoxDecoration(
                   color: AppColors.primary,
-                  borderRadius: BorderRadius.circular(24),
+                  borderRadius: BorderRadius.circular(AppRadius.xl),
                 ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const Text(
+                    Text(
                       'Selamat Datang 👋',
-                      style: TextStyle(color: Colors.white70, fontSize: 16),
+                      style: AppTypography.body.copyWith(color: AppColors.blue100),
                     ),
-                    const SizedBox(height: 8),
-                    const Text(
+                    const SizedBox(height: AppSpacing.space2),
+                    // Wordmark logo — satu-satunya pengecualian Bold (700).
+                    Text(
                       'KELUH.IN',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 30,
+                      style: AppTypography.heading1.copyWith(
+                        color: AppColors.white,
                         fontWeight: FontWeight.bold,
                         letterSpacing: 1.1,
                       ),
                     ),
-                    const SizedBox(height: 16),
+                    const SizedBox(height: AppSpacing.space4),
                     Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: AppSpacing.space3,
+                        vertical: 6,
+                      ),
                       decoration: BoxDecoration(
-                        color: Colors.white.withValues(alpha: 0.15),
-                        borderRadius: BorderRadius.circular(10),
+                        color: AppColors.white.withValues(alpha: 0.15),
+                        borderRadius: BorderRadius.circular(AppRadius.full),
                       ),
                       child: Text(
                         'Total Pengaduan: ${complaints.length}',
-                        style: const TextStyle(color: Colors.white, fontWeight: FontWeight.w500),
+                        style: AppTypography.bodySmall.copyWith(
+                          color: AppColors.white,
+                          fontWeight: FontWeight.w500,
+                        ),
                       ),
                     ),
                   ],
                 ),
               ),
 
-              const SizedBox(height: 28),
+              const SizedBox(height: AppSpacing.space8),
 
               // STATISTIK TITLE
-              const Text(
+              Text(
                 'Statistik Pengaduan',
-                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                style: AppTypography.heading3,
               ),
-              const SizedBox(height: 16),
+              const SizedBox(height: AppSpacing.space4),
 
               // GRID STATISTIK
               GridView.count(
                 crossAxisCount: 2,
                 shrinkWrap: true,
                 physics: const NeverScrollableScrollPhysics(),
-                crossAxisSpacing: 14,
-                mainAxisSpacing: 14,
+                crossAxisSpacing: AppSpacing.space3,
+                mainAxisSpacing: AppSpacing.space3,
                 childAspectRatio: 1.3,
                 children: [
                   buildStatCard(
                     title: 'Menunggu',
                     total: waiting.toString(),
-                    color: Colors.orange,
+                    color: AppColors.warning,
                     icon: Icons.access_time_rounded,
                   ),
                   buildStatCard(
                     title: 'Diproses',
                     total: processing.toString(),
-                    color: Colors.blue,
+                    color: AppColors.info,
                     icon: Icons.sync_rounded,
                   ),
                   buildStatCard(
                     title: 'Selesai',
                     total: completed.toString(),
-                    color: Colors.green,
+                    color: AppColors.success,
                     icon: Icons.check_circle_rounded,
                   ),
                   buildStatCard(
                     title: 'Ditolak',
                     total: rejected.toString(),
-                    color: Colors.red,
+                    color: AppColors.danger,
                     icon: Icons.cancel_rounded,
                   ),
                 ],
               ),
 
-              const SizedBox(height: 28),
+              const SizedBox(height: AppSpacing.space8),
 
               // RECENT TITLE
-              const Text(
+              Text(
                 'Pengaduan Terbaru',
-                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                style: AppTypography.heading3,
               ),
-              const SizedBox(height: 16),
+              const SizedBox(height: AppSpacing.space4),
 
               // LIST PENGADUAN TERBARU
               complaints.isEmpty
-                  ? const SizedBox(
+                  ? SizedBox(
                       width: double.infinity,
                       child: Card(
-                        elevation: 0,
                         child: Padding(
-                          padding: EdgeInsets.all(24),
+                          padding: const EdgeInsets.all(AppSpacing.space6),
                           child: Center(
                             child: Text(
                               AppText.noData,
-                              style: TextStyle(color: Colors.grey),
+                              style: AppTypography.bodySmall
+                                  .copyWith(color: AppColors.ink500),
                             ),
                           ),
                         ),
@@ -330,60 +346,54 @@ class _DashboardContentTabState extends State<DashboardContentTab> {
                         final bool isSending = item['isSending'] ?? false;
 
                         return Card(
-                          elevation: 0,
-                          margin: const EdgeInsets.only(bottom: 12),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(14),
-                            side: BorderSide(color: Colors.grey.withValues(alpha: 0.15)),
-                          ),
+                          margin: const EdgeInsets.only(bottom: AppSpacing.space3),
                           child: ListTile(
-                            contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
+                            contentPadding: const EdgeInsets.symmetric(
+                              horizontal: AppSpacing.space4,
+                              vertical: AppSpacing.space1,
+                            ),
                             leading: CircleAvatar(
-                              backgroundColor: isSending 
-                                  ? Colors.grey.shade100 
+                              backgroundColor: isSending
+                                  ? AppColors.ink100
                                   : AppColors.primary.withValues(alpha: 0.1),
                               child: Icon(
                                 Icons.assignment_outlined,
-                                color: isSending ? Colors.grey : AppColors.primary,
+                                color: isSending
+                                    ? AppColors.ink400
+                                    : AppColors.primary,
                               ),
                             ),
                             title: Text(
                               item['title'] ?? '-',
-                              style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                color: isSending ? Colors.grey : Colors.black,
+                              style: AppTypography.body.copyWith(
+                                fontWeight: FontWeight.w600,
+                                color: isSending
+                                    ? AppColors.ink400
+                                    : AppColors.ink900,
                               ),
                             ),
                             subtitle: Text(
                               item['category']?['name'] ?? item['description'] ?? '-',
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis,
+                              style: AppTypography.bodySmall
+                                  .copyWith(color: AppColors.ink500),
                             ),
                             trailing: isSending
                                 ? const SizedBox(
                                     width: 16,
                                     height: 16,
-                                    child: CircularProgressIndicator(strokeWidth: 2, color: Colors.grey),
+                                    child: CircularProgressIndicator(
+                                      strokeWidth: 2,
+                                      color: AppColors.ink400,
+                                    ),
                                   )
-                                : Container(
-                                    padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-                                    decoration: BoxDecoration(
-                                      color: Colors.grey.withValues(alpha: 0.1),
-                                      borderRadius: BorderRadius.circular(30),
-                                    ),
-                                    child: Text(
-                                      item['status'] ?? '-',
-                                      style: const TextStyle(
-                                        fontSize: 11,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                  ),
+                                : StatusBadge(status: item['status'] ?? '-'),
                           ),
                         );
                       }).toList(),
                     ),
-              const SizedBox(height: 20),
+              const SizedBox(height: AppSpacing.space5),
             ],
           ),
         ),
@@ -398,18 +408,12 @@ class _DashboardContentTabState extends State<DashboardContentTab> {
     required IconData icon,
   }) {
     return Container(
-      padding: const EdgeInsets.all(16),
+      padding: const EdgeInsets.all(AppSpacing.space4),
       decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: Colors.grey.withValues(alpha: 0.1)),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.grey.withValues(alpha: 0.05),
-            blurRadius: 10,
-            offset: const Offset(0, 4),
-          ),
-        ],
+        color: AppColors.surface,
+        borderRadius: BorderRadius.circular(AppRadius.lg),
+        border: Border.all(color: AppColors.border),
+        boxShadow: AppElevation.shadow1,
       ),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -423,12 +427,12 @@ class _DashboardContentTabState extends State<DashboardContentTab> {
           const Spacer(),
           Text(
             total,
-            style: const TextStyle(fontSize: 26, fontWeight: FontWeight.bold),
+            style: AppTypography.heading2,
           ),
           const SizedBox(height: 2),
           Text(
             title,
-            style: const TextStyle(color: Colors.grey, fontSize: 12),
+            style: AppTypography.caption.copyWith(color: AppColors.ink500),
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
           ),
