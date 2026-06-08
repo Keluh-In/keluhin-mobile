@@ -34,8 +34,11 @@ class _RegisterScreenState
 
   bool loading = false;
 
+  bool isPasswordHidden = true;
+  bool isConfirmPasswordHidden = true;
+
   final AuthRepository repository =
-      AuthRepository();
+    AuthRepository();
 
   Future register() async {
     if (nameController.text.isEmpty ||
@@ -99,11 +102,20 @@ class _RegisterScreenState
     }
   }
 
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor:
-          AppColors.background,
+@override
+void dispose() {
+  nameController.dispose();
+  emailController.dispose();
+  passwordController.dispose();
+  confirmPasswordController.dispose();
+  super.dispose();
+}
+
+@override
+Widget build(BuildContext context) {
+  return Scaffold(
+    backgroundColor:
+        AppColors.background,
 
       appBar: AppBar(
         elevation: 0,
@@ -161,27 +173,68 @@ class _RegisterScreenState
 
             const SizedBox(height: AppSpacing.space5),
 
-            // PASSWORD
-            TextField(
-              controller: passwordController,
-              obscureText: true,
-              decoration: const InputDecoration(
-                labelText: AppText.password,
-                prefixIcon: Icon(Icons.lock),
-              ),
-            ),
+           // PASSWORD
+TextField(
+  controller: passwordController,
+  obscureText: isPasswordHidden,
+  decoration: InputDecoration(
+    labelText: AppText.password,
+    prefixIcon: const Icon(
+      Icons.lock,
+    ),
+    suffixIcon: IconButton(
+      icon: Icon(
+        isPasswordHidden
+            ? Icons.visibility_off
+            : Icons.visibility,
+      ),
+      onPressed: () {
+        setState(() {
+          isPasswordHidden =
+              !isPasswordHidden;
+        });
+      },
+    ),
+    border: OutlineInputBorder(
+      borderRadius:
+          BorderRadius.circular(12),
+    ),
+  ),
+),
 
             const SizedBox(height: AppSpacing.space5),
 
             // CONFIRM PASSWORD
-            TextField(
-              controller: confirmPasswordController,
-              obscureText: true,
-              decoration: const InputDecoration(
-                labelText: AppText.confirmPassword,
-                prefixIcon: Icon(Icons.lock_outline),
-              ),
-            ),
+TextField(
+  controller:
+      confirmPasswordController,
+  obscureText:
+      isConfirmPasswordHidden,
+  decoration: InputDecoration(
+    labelText:
+        AppText.confirmPassword,
+    prefixIcon: const Icon(
+      Icons.lock_outline,
+    ),
+    suffixIcon: IconButton(
+      icon: Icon(
+        isConfirmPasswordHidden
+            ? Icons.visibility_off
+            : Icons.visibility,
+      ),
+      onPressed: () {
+        setState(() {
+          isConfirmPasswordHidden =
+              !isConfirmPasswordHidden;
+        });
+      },
+    ),
+    border: OutlineInputBorder(
+      borderRadius:
+          BorderRadius.circular(12),
+    ),
+  ),
+),
 
             const SizedBox(height: AppSpacing.space8),
 
