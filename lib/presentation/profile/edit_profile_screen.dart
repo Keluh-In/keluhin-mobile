@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:keluhin_mobile_app/core/constants/app_colors.dart';
+import 'package:keluhin_mobile_app/core/constants/app_spacing.dart';
 import 'package:keluhin_mobile_app/core/constants/app_text.dart';
 import 'package:keluhin_mobile_app/core/utils/helper.dart';
 
@@ -102,15 +103,10 @@ class _EditProfileScreenState
     String label,
     IconData icon,
   ) {
+    // Border/radius mengikuti inputDecorationTheme (token radius-md).
     return InputDecoration(
       labelText: label,
-
       prefixIcon: Icon(icon),
-
-      border: OutlineInputBorder(
-        borderRadius:
-            BorderRadius.circular(12),
-      ),
     );
   }
 
@@ -129,7 +125,7 @@ class _EditProfileScreenState
 
       body: SingleChildScrollView(
         padding:
-            const EdgeInsets.all(20),
+            const EdgeInsets.all(AppSpacing.space5),
 
         child: Column(
           crossAxisAlignment:
@@ -141,110 +137,68 @@ class _EditProfileScreenState
               child: CircleAvatar(
                 radius: 50,
                 backgroundColor:
-                    AppColors.primary
-                        // ignore: deprecated_member_use
-                        .withOpacity(0.1),
+                    AppColors.primary.withValues(alpha: 0.1),
 
                 child: const Icon(
                   Icons.person,
                   size: 50,
-                  color:
-                      AppColors.primary,
+                  color: AppColors.primary,
                 ),
               ),
             ),
 
-            const SizedBox(height: 35),
+            const SizedBox(height: AppSpacing.space8),
 
             // NAME
             TextField(
-              controller:
-                  nameController,
-
+              controller: nameController,
               decoration: decoration(
                 AppText.fullName,
                 Icons.person,
               ),
             ),
 
-            const SizedBox(height: 20),
+            const SizedBox(height: AppSpacing.space5),
 
             // EMAIL
             TextField(
-              controller:
-                  emailController,
-
-              keyboardType:
-                  TextInputType
-                      .emailAddress,
-
+              controller: emailController,
+              keyboardType: TextInputType.emailAddress,
               decoration: decoration(
                 AppText.email,
                 Icons.email,
               ),
             ),
 
-            const SizedBox(height: 20),
+            const SizedBox(height: AppSpacing.space5),
 
             // PASSWORD
             TextField(
-              controller:
-                  passwordController,
-
+              controller: passwordController,
               obscureText: true,
-
               decoration: decoration(
                 'Password Baru (Opsional)',
                 Icons.lock,
               ),
             ),
 
-            const SizedBox(height: 35),
+            const SizedBox(height: AppSpacing.space8),
 
             // BUTTON
             SizedBox(
               width: double.infinity,
-              height: 55,
-
               child: ElevatedButton(
-                style:
-                    ElevatedButton.styleFrom(
-                  backgroundColor:
-                      AppColors.primary,
-
-                  shape:
-                      RoundedRectangleBorder(
-                    borderRadius:
-                        BorderRadius.circular(
-                      12,
-                    ),
-                  ),
-                ),
-
-                onPressed:
-                    loading
-                        ? null
-                        : updateProfile,
-
-                child:
-                    loading
-                        ? const CircularProgressIndicator(
-                          color:
-                              Colors.white,
-                        )
-                        : const Text(
-                          AppText.update,
-                          style:
-                              TextStyle(
-                            color:
-                                Colors
-                                    .white,
-                            fontSize:
-                                16,
-                            fontWeight:
-                                FontWeight.bold,
-                          ),
+                onPressed: loading ? null : updateProfile,
+                child: loading
+                    ? const SizedBox(
+                        height: 20,
+                        width: 20,
+                        child: CircularProgressIndicator(
+                          color: AppColors.white,
+                          strokeWidth: 2,
                         ),
+                      )
+                    : const Text(AppText.update),
               ),
             ),
           ],

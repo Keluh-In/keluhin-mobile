@@ -318,6 +318,40 @@ val KeluhInShapes = Shapes(
 )
 ```
 
+### Flutter (mobile app ini)
+
+Token di-port ke Dart di `lib/core/constants/` dan dipakai lewat `AppTheme`.
+Sumber tunggal — dilarang hardcode hex/ukuran di luar file token.
+
+| File | Isi |
+|---|---|
+| `app_colors.dart` | skala `blue-50..900`, `ink-0..950`, status `core/bg/text`, alias semantik (`primary`, `background`, `textPrimary`, dll) |
+| `app_spacing.dart` | `space1..space16` (4–64px) |
+| `app_radius.dart` | `sm 8 / md 12 / lg 16 / xl 20 / xxl 28 / full 999` |
+| `app_elevation.dart` | `shadow1/2/3` (`List<BoxShadow>`) + `e1/e2/e3` numerik |
+| `app_typography.dart` | Poppins via `google_fonts`: `display / heading1..3 / bodyLarge / body / bodySmall / caption / button` + `textTheme` |
+
+```dart
+// Pemakaian
+Text('Judul', style: AppTypography.heading3);
+Container(
+  padding: const EdgeInsets.all(AppSpacing.space5),
+  decoration: BoxDecoration(
+    color: AppColors.surface,
+    borderRadius: BorderRadius.circular(AppRadius.lg),
+    boxShadow: AppElevation.shadow1,
+  ),
+);
+```
+
+**Komponen reusable:** `CustomButton`, `CustomTextField` (label di atas + border token),
+`ComplaintCard`, `StatCard`, dan `StatusBadge` (pill titik+label).
+
+**Catatan status (mobile):** label status dirender apa adanya dari backend
+(mis. masih memakai "Menunggu"). Mapping warna saat ini dipertahankan:
+Menunggu=amber, Diproses=biru, Selesai=hijau, Ditolak=merah — lihat
+`Helper.statusColor`. Bila label "Menunggu" diganti "Baru", samakan juga di sini.
+
 ---
 
 *Keluh In Design System · v1.0 · Poppins · `#2B63F0` — dibuat untuk konsistensi mobile & web.*

@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
 
 import 'package:keluhin_mobile_app/core/constants/app_colors.dart';
+import 'package:keluhin_mobile_app/core/constants/app_radius.dart';
+import 'package:keluhin_mobile_app/core/constants/app_spacing.dart';
+import 'package:keluhin_mobile_app/core/constants/app_typography.dart';
 import 'package:keluhin_mobile_app/core/utils/helper.dart';
+import 'package:keluhin_mobile_app/presentation/widgets/status_badge.dart';
 
 class ComplaintCard extends StatelessWidget {
   final Map<String, dynamic> complaint;
@@ -14,236 +18,114 @@ class ComplaintCard extends StatelessWidget {
     this.onTap,
   });
 
-  Widget buildStatus(String status) {
-    return Container(
-      padding: const EdgeInsets.symmetric(
-        horizontal: 12,
-        vertical: 5,
-      ),
+  Widget _metaRow(IconData icon, String text, {bool expand = false}) {
+    final label = Text(
+      text,
+      style: AppTypography.bodySmall.copyWith(color: AppColors.ink500),
+      maxLines: 1,
+      overflow: TextOverflow.ellipsis,
+    );
 
-      decoration: BoxDecoration(
-        color: Helper.statusColor(
-          status,
-        // ignore: deprecated_member_use
-        ).withOpacity(0.1),
-
-        borderRadius:
-            BorderRadius.circular(20),
-      ),
-
-      child: Text(
-        status,
-        style: TextStyle(
-          color: Helper.statusColor(
-            status,
-          ),
-          fontWeight: FontWeight.bold,
-          fontSize: 12,
-        ),
-      ),
+    return Row(
+      children: [
+        Icon(icon, size: 18, color: AppColors.ink400),
+        const SizedBox(width: AppSpacing.space2),
+        if (expand) Expanded(child: label) else label,
+      ],
     );
   }
 
   @override
   Widget build(BuildContext context) {
     return Card(
-      elevation: 2,
-
-      margin: const EdgeInsets.only(
-        bottom: 16,
-      ),
-
-      shape: RoundedRectangleBorder(
-        borderRadius:
-            BorderRadius.circular(16),
-      ),
-
+      margin: const EdgeInsets.only(bottom: AppSpacing.space4),
       child: InkWell(
-        borderRadius:
-            BorderRadius.circular(16),
-
+        borderRadius: BorderRadius.circular(AppRadius.lg),
         onTap: onTap,
-
         child: Padding(
-          padding: const EdgeInsets.all(
-            16,
-          ),
-
+          padding: const EdgeInsets.all(AppSpacing.space5),
           child: Column(
-            crossAxisAlignment:
-                CrossAxisAlignment.start,
-
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // TOP SECTION
+              // TOP SECTION — judul (H3) + badge status
               Row(
-                crossAxisAlignment:
-                    CrossAxisAlignment.start,
-
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Expanded(
                     child: Text(
-                      complaint['title'] ??
-                          '-',
-                      style:
-                          const TextStyle(
-                        fontSize: 17,
-                        fontWeight:
-                            FontWeight.bold,
-                      ),
+                      complaint['title'] ?? '-',
+                      style: AppTypography.heading3,
                       maxLines: 2,
-                      overflow:
-                          TextOverflow
-                              .ellipsis,
+                      overflow: TextOverflow.ellipsis,
                     ),
                   ),
-
-                  const SizedBox(width: 10),
-
-                  buildStatus(
-                    complaint['status'] ??
-                        '-',
-                  ),
+                  const SizedBox(width: AppSpacing.space3),
+                  StatusBadge(status: complaint['status'] ?? '-'),
                 ],
               ),
 
-              const SizedBox(height: 15),
+              const SizedBox(height: AppSpacing.space4),
 
               // CATEGORY
-              Row(
-                children: [
-                  const Icon(
-                    Icons.category,
-                    size: 18,
-                    color: Colors.grey,
-                  ),
-
-                  const SizedBox(width: 6),
-
-                  Text(
-                    complaint['category']
-                            ?['name'] ??
-                        '-',
-                    style:
-                        const TextStyle(
-                      color: Colors.grey,
-                    ),
-                  ),
-                ],
+              _metaRow(
+                Icons.category,
+                complaint['category']?['name'] ?? '-',
               ),
 
-              const SizedBox(height: 8),
+              const SizedBox(height: AppSpacing.space2),
 
               // LOCATION
-              Row(
-                children: [
-                  const Icon(
-                    Icons.location_on,
-                    size: 18,
-                    color: Colors.grey,
-                  ),
-
-                  const SizedBox(width: 6),
-
-                  Expanded(
-                    child: Text(
-                      complaint['location'] ??
-                          '-',
-                      style:
-                          const TextStyle(
-                        color: Colors.grey,
-                      ),
-                      maxLines: 1,
-                      overflow:
-                          TextOverflow
-                              .ellipsis,
-                    ),
-                  ),
-                ],
+              _metaRow(
+                Icons.location_on,
+                complaint['location'] ?? '-',
+                expand: true,
               ),
 
-              const SizedBox(height: 8),
+              const SizedBox(height: AppSpacing.space2),
 
               // DATE
-              Row(
-                children: [
-                  const Icon(
-                    Icons.calendar_today,
-                    size: 18,
-                    color: Colors.grey,
-                  ),
-
-                  const SizedBox(width: 6),
-
-                  Text(
-                    Helper.formatDate(
-                      complaint[
-                          'created_at'],
-                    ),
-                    style:
-                        const TextStyle(
-                      color: Colors.grey,
-                      fontSize: 13,
-                    ),
-                  ),
-                ],
+              _metaRow(
+                Icons.calendar_today,
+                Helper.formatDate(complaint['created_at']),
               ),
 
-              const SizedBox(height: 14),
+              const SizedBox(height: AppSpacing.space3),
 
               // DESCRIPTION
               Text(
-                complaint['description'] ??
-                    '-',
+                complaint['description'] ?? '-',
                 maxLines: 2,
-                overflow:
-                    TextOverflow.ellipsis,
-                style: const TextStyle(
-                  height: 1.5,
-                ),
+                overflow: TextOverflow.ellipsis,
+                style: AppTypography.bodySmall.copyWith(color: AppColors.ink600),
               ),
 
-              const SizedBox(height: 16),
+              const SizedBox(height: AppSpacing.space4),
 
               // FOOTER
               Row(
-                mainAxisAlignment:
-                    MainAxisAlignment
-                        .spaceBetween,
-
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Row(
                     children: [
                       const Icon(
                         Icons.comment,
                         size: 18,
-                        color:
-                            AppColors
-                                .primary,
+                        color: AppColors.primary,
                       ),
-
-                      const SizedBox(
-                        width: 5,
-                      ),
-
+                      const SizedBox(width: AppSpacing.space1),
                       Text(
                         '${complaint['responses_count'] ?? 0} Tanggapan',
-                        style:
-                            const TextStyle(
-                          color:
-                              AppColors
-                                  .primary,
-                          fontWeight:
-                              FontWeight
-                                  .w500,
+                        style: AppTypography.bodySmall.copyWith(
+                          color: AppColors.primary,
+                          fontWeight: FontWeight.w500,
                         ),
                       ),
                     ],
                   ),
-
                   const Icon(
                     Icons.arrow_forward_ios,
                     size: 16,
-                    color: Colors.grey,
+                    color: AppColors.ink400,
                   ),
                 ],
               ),

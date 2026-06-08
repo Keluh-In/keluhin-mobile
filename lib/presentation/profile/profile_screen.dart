@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 
 import 'package:keluhin_mobile_app/core/constants/app_colors.dart';
+import 'package:keluhin_mobile_app/core/constants/app_radius.dart';
+import 'package:keluhin_mobile_app/core/constants/app_spacing.dart';
 import 'package:keluhin_mobile_app/core/constants/app_text.dart';
+import 'package:keluhin_mobile_app/core/constants/app_typography.dart';
 import 'package:keluhin_mobile_app/core/utils/helper.dart';
 import '../../core/utils/storage.dart';
 
@@ -88,24 +91,15 @@ class _ProfileScreenState
     Color? color,
   }) {
     return Card(
-      elevation: 1,
-
       margin: const EdgeInsets.only(
-        bottom: 14,
-      ),
-
-      shape: RoundedRectangleBorder(
-        borderRadius:
-            BorderRadius.circular(14),
+        bottom: AppSpacing.space3,
       ),
 
       child: ListTile(
         leading: CircleAvatar(
           backgroundColor:
-              (color ??
-                      AppColors.primary)
-                  // ignore: deprecated_member_use
-                  .withOpacity(0.1),
+              (color ?? AppColors.primary)
+                  .withValues(alpha: 0.1),
 
           child: Icon(
             icon,
@@ -115,7 +109,7 @@ class _ProfileScreenState
           ),
         ),
 
-        title: Text(title),
+        title: Text(title, style: AppTypography.body),
 
         trailing: const Icon(
           Icons.arrow_forward_ios,
@@ -157,7 +151,7 @@ class _ProfileScreenState
               const AlwaysScrollableScrollPhysics(),
 
           padding:
-              const EdgeInsets.all(20),
+              const EdgeInsets.all(AppSpacing.space5),
 
           child: Column(
             children: [
@@ -166,73 +160,47 @@ class _ProfileScreenState
                 width: double.infinity,
 
                 padding:
-                    const EdgeInsets.all(
-                  24,
-                ),
+                    const EdgeInsets.all(AppSpacing.space6),
 
                 decoration: BoxDecoration(
-                  color:
-                      AppColors.primary,
-
+                  color: AppColors.primary,
                   borderRadius:
-                      BorderRadius.circular(
-                    22,
-                  ),
+                      BorderRadius.circular(AppRadius.xl),
                 ),
 
                 child: Column(
                   children: [
                     const CircleAvatar(
                       radius: 45,
-                      backgroundColor:
-                          Colors.white,
+                      backgroundColor: AppColors.white,
 
                       child: Icon(
                         Icons.person,
                         size: 50,
-                        color:
-                            AppColors
-                                .primary,
+                        color: AppColors.primary,
                       ),
                     ),
 
-                    const SizedBox(
-                      height: 16,
-                    ),
+                    const SizedBox(height: AppSpacing.space4),
 
                     Text(
-                      user?['name'] ??
-                          '-',
-                      style:
-                          const TextStyle(
-                        color:
-                            Colors.white,
-                        fontSize: 22,
-                        fontWeight:
-                            FontWeight
-                                .bold,
-                      ),
+                      user?['name'] ?? '-',
+                      style: AppTypography.heading2
+                          .copyWith(color: AppColors.white),
                     ),
 
-                    const SizedBox(
-                      height: 6,
-                    ),
+                    const SizedBox(height: AppSpacing.space1),
 
                     Text(
-                      user?['email'] ??
-                          '-',
-                      style:
-                          const TextStyle(
-                        color:
-                            Colors.white70,
-                        fontSize: 15,
-                      ),
+                      user?['email'] ?? '-',
+                      style: AppTypography.bodySmall
+                          .copyWith(color: AppColors.blue100),
                     ),
                   ],
                 ),
               ),
 
-              const SizedBox(height: 30),
+              const SizedBox(height: AppSpacing.space8),
 
               // MENU
               buildMenu(
@@ -298,7 +266,7 @@ class _ProfileScreenState
               buildMenu(
                 icon: Icons.logout,
                 title: AppText.logout,
-                color: Colors.red,
+                color: AppColors.danger,
 
                 onTap: logout,
               ),

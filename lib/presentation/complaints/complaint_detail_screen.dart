@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:keluhin_mobile_app/core/constants/app_colors.dart';
+import 'package:keluhin_mobile_app/core/constants/app_spacing.dart';
 import 'package:keluhin_mobile_app/core/constants/app_text.dart';
+import 'package:keluhin_mobile_app/core/constants/app_typography.dart';
 
 import 'package:keluhin_mobile_app/core/utils/helper.dart';
 
 import '../../data/repositories/complaint_repository.dart';
 
 import '../../presentation/complaints/edit_complaint_screen.dart';
+import '../widgets/status_badge.dart';
 
 class ComplaintDetailScreen
     extends StatefulWidget {
@@ -87,32 +90,6 @@ class _ComplaintDetailScreenState
         'Gagal menghapus pengaduan',
       );
     }
-  }
-
-  Widget buildStatus(String status) {
-    return Container(
-      padding: const EdgeInsets.symmetric(
-        horizontal: 12,
-        vertical: 6,
-      ),
-      decoration: BoxDecoration(
-        color: Helper.statusColor(
-          status,
-        // ignore: deprecated_member_use
-        ).withOpacity(0.1),
-        borderRadius:
-            BorderRadius.circular(20),
-      ),
-      child: Text(
-        status,
-        style: TextStyle(
-          color: Helper.statusColor(
-            status,
-          ),
-          fontWeight: FontWeight.bold,
-        ),
-      ),
-    );
   }
 
   @override
@@ -225,7 +202,7 @@ class _ComplaintDetailScreenState
 
       body: SingleChildScrollView(
         padding:
-            const EdgeInsets.all(20),
+            const EdgeInsets.all(AppSpacing.space5),
 
         child: Column(
           crossAxisAlignment:
@@ -234,73 +211,57 @@ class _ComplaintDetailScreenState
           children: [
             // TITLE
             Text(
-              complaint!['title'] ??
-                  '-',
-              style: const TextStyle(
-                fontSize: 24,
-                fontWeight:
-                    FontWeight.bold,
-              ),
+              complaint!['title'] ?? '-',
+              style: AppTypography.heading2,
             ),
 
-            const SizedBox(height: 15),
+            const SizedBox(height: AppSpacing.space4),
 
             // STATUS
-            buildStatus(status),
+            StatusBadge(status: status),
 
-            const SizedBox(height: 25),
+            const SizedBox(height: AppSpacing.space6),
 
             // CATEGORY
             Card(
               child: ListTile(
                 leading: const Icon(
                   Icons.category,
-                  color:
-                      AppColors.primary,
+                  color: AppColors.primary,
                 ),
-                title: const Text(
-                  AppText.category,
-                ),
+                title: const Text(AppText.category),
                 subtitle: Text(
-                  complaint!['category']?['name'] ??
-                      '-',
+                  complaint!['category']?['name'] ?? '-',
                 ),
               ),
             ),
 
-            const SizedBox(height: 15),
+            const SizedBox(height: AppSpacing.space3),
 
             // LOCATION
             Card(
               child: ListTile(
                 leading: const Icon(
                   Icons.location_on,
-                  color:
-                      AppColors.primary,
+                  color: AppColors.primary,
                 ),
-                title: const Text(
-                  AppText.location,
-                ),
+                title: const Text(AppText.location),
                 subtitle: Text(
-                  complaint!['location'] ??
-                      '-',
+                  complaint!['location'] ?? '-',
                 ),
               ),
             ),
 
-            const SizedBox(height: 15),
+            const SizedBox(height: AppSpacing.space3),
 
             // DATE
             Card(
               child: ListTile(
                 leading: const Icon(
                   Icons.calendar_today,
-                  color:
-                      AppColors.primary,
+                  color: AppColors.primary,
                 ),
-                title: const Text(
-                  'Tanggal',
-                ),
+                title: const Text('Tanggal'),
                 subtitle: Text(
                   Helper.formatDate(
                     complaint!['created_at'],
@@ -309,57 +270,45 @@ class _ComplaintDetailScreenState
               ),
             ),
 
-            const SizedBox(height: 25),
+            const SizedBox(height: AppSpacing.space6),
 
             // DESCRIPTION
-            const Text(
+            Text(
               AppText.description,
-              style: TextStyle(
-                fontSize: 18,
-                fontWeight:
-                    FontWeight.bold,
-              ),
+              style: AppTypography.heading3,
             ),
 
-            const SizedBox(height: 10),
+            const SizedBox(height: AppSpacing.space2),
 
             Card(
               child: Padding(
-                padding:
-                    const EdgeInsets.all(
-                  16,
-                ),
+                padding: const EdgeInsets.all(AppSpacing.space5),
                 child: Text(
-                  complaint!['description'] ??
-                      '-',
+                  complaint!['description'] ?? '-',
+                  style: AppTypography.body.copyWith(color: AppColors.ink600),
                 ),
               ),
             ),
 
-            const SizedBox(height: 30),
+            const SizedBox(height: AppSpacing.space8),
 
             // RESPONSES
-            const Text(
+            Text(
               'Tanggapan Admin',
-              style: TextStyle(
-                fontSize: 18,
-                fontWeight:
-                    FontWeight.bold,
-              ),
+              style: AppTypography.heading3,
             ),
 
-            const SizedBox(height: 15),
+            const SizedBox(height: AppSpacing.space4),
 
             responses.isEmpty
-                ? const Card(
+                ? Card(
                   child: Padding(
-                    padding:
-                        EdgeInsets.all(
-                      20,
-                    ),
+                    padding: const EdgeInsets.all(AppSpacing.space5),
                     child: Center(
                       child: Text(
                         'Belum ada tanggapan',
+                        style: AppTypography.bodySmall
+                            .copyWith(color: AppColors.ink500),
                       ),
                     ),
                   ),
@@ -370,13 +319,11 @@ class _ComplaintDetailScreenState
                     return Card(
                       margin:
                           const EdgeInsets.only(
-                        bottom: 12,
+                        bottom: AppSpacing.space3,
                       ),
                       child: Padding(
                         padding:
-                            const EdgeInsets.all(
-                          16,
-                        ),
+                            const EdgeInsets.all(AppSpacing.space5),
                         child: Column(
                           crossAxisAlignment:
                               CrossAxisAlignment
@@ -387,20 +334,16 @@ class _ComplaintDetailScreenState
                                 const CircleAvatar(
                                   radius: 18,
                                   backgroundColor:
-                                      AppColors
-                                          .primary,
+                                      AppColors.primary,
                                   child: Icon(
-                                    Icons
-                                        .admin_panel_settings,
-                                    color:
-                                        Colors
-                                            .white,
+                                    Icons.admin_panel_settings,
+                                    color: AppColors.white,
                                     size: 18,
                                   ),
                                 ),
 
                                 const SizedBox(
-                                  width: 10,
+                                  width: AppSpacing.space3,
                                 ),
 
                                 Expanded(
@@ -412,23 +355,16 @@ class _ComplaintDetailScreenState
                                       Text(
                                         item['admin']['name'] ??
                                             'Admin',
-                                        style:
-                                            const TextStyle(
-                                          fontWeight:
-                                              FontWeight.bold,
+                                        style: AppTypography.body.copyWith(
+                                          fontWeight: FontWeight.w600,
                                         ),
                                       ),
                                       Text(
                                         Helper.formatDate(
                                           item['created_at'],
                                         ),
-                                        style:
-                                            const TextStyle(
-                                          fontSize:
-                                              12,
-                                          color:
-                                              Colors
-                                                  .grey,
+                                        style: AppTypography.caption.copyWith(
+                                          color: AppColors.ink500,
                                         ),
                                       ),
                                     ],
@@ -438,12 +374,13 @@ class _ComplaintDetailScreenState
                             ),
 
                             const SizedBox(
-                              height: 15,
+                              height: AppSpacing.space4,
                             ),
 
                             Text(
-                              item['message'] ??
-                                  '-',
+                              item['message'] ?? '-',
+                              style: AppTypography.bodySmall
+                                  .copyWith(color: AppColors.ink600),
                             ),
                           ],
                         ),

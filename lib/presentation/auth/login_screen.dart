@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:keluhin_mobile_app/core/constants/app_colors.dart';
+import 'package:keluhin_mobile_app/core/constants/app_spacing.dart';
 import 'package:keluhin_mobile_app/core/constants/app_text.dart';
+import 'package:keluhin_mobile_app/core/constants/app_typography.dart';
 import 'package:keluhin_mobile_app/core/utils/helper.dart';
 
 import '../../data/repositories/auth_repository.dart';
@@ -66,25 +68,23 @@ class _LoginScreenState extends State<LoginScreen> {
         title: const Text(AppText.login),
       ),
       body: Padding(
-        padding: const EdgeInsets.all(20),
+        padding: const EdgeInsets.all(AppSpacing.space5),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const Text(
+            // Wordmark logo — pengecualian Bold (700).
+            Text(
               'KELUH.IN',
-              style: TextStyle(
-                fontSize: 32,
-                fontWeight: FontWeight.bold,
-              ),
+              style: AppTypography.heading1.copyWith(fontWeight: FontWeight.bold),
             ),
-            const SizedBox(height: 30),
+            const SizedBox(height: AppSpacing.space8),
             TextField(
               controller: emailController,
               decoration: const InputDecoration(
                 labelText: 'Email',
               ),
             ),
-            const SizedBox(height: 15),
+            const SizedBox(height: AppSpacing.space4),
             TextField(
               controller: passwordController,
               obscureText: true,
@@ -92,7 +92,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 labelText: 'Password',
               ),
             ),
-            const SizedBox(height: 25),
+            const SizedBox(height: AppSpacing.space6),
             SizedBox(
               width: double.infinity,
               child: ElevatedButton(
@@ -102,7 +102,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         height: 20,
                         width: 20,
                         child: CircularProgressIndicator(
-                          color: Colors.white,
+                          color: AppColors.white,
                           strokeWidth: 2,
                         ),
                       )
