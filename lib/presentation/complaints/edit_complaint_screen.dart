@@ -1,6 +1,10 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 
 import '../../core/constants/app_colors.dart';
+import '../../core/constants/app_radius.dart';
 import '../../core/constants/app_spacing.dart';
 import '../../core/utils/helper.dart';
 
@@ -46,6 +50,8 @@ class _EditComplaintScreenState
 
   bool loading = false;
 
+  File? imageFile;
+
   @override
   void initState() {
     super.initState();
@@ -53,6 +59,20 @@ class _EditComplaintScreenState
     setData();
 
     getCategories();
+  }
+
+  Future pickImage() async {
+    final picker = ImagePicker();
+
+    final picked = await picker.pickImage(
+      source: ImageSource.gallery,
+    );
+
+    if (picked != null) {
+      setState(() {
+        imageFile = File(picked.path);
+      });
+    }
   }
 
   void setData() {
@@ -122,6 +142,8 @@ class _EditComplaintScreenState
 
       location:
           locationController.text,
+
+      attachment: imageFile?.path,
     );
 
     setState(() {
@@ -238,6 +260,53 @@ class _EditComplaintScreenState
               decoration: decoration(
                 'Lokasi',
                 Icons.location_on,
+              ),
+            ),
+
+            const SizedBox(height: AppSpacing.space5),
+
+            // IMAGE
+            if (imageFile != null)
+              ClipRRect(
+                borderRadius:
+                    BorderRadius.circular(AppRadius.lg),
+                child: Image.file(
+                  imageFile!,
+                  height: 200,
+                  width: double.infinity,
+                  fit: BoxFit.cover,
+                ),
+              )
+            else if (widget.complaint['image_url'] != null)
+              ClipRRect(
+                borderRadius:
+                    BorderRadius.circular(AppRadius.lg),
+                child: Image.network(
+                  widget.complaint['image_url'],
+                  height: 200,
+                  width: double.infinity,
+                  fit: BoxFit.cover,
+                  errorBuilder: (_, __, ___) => Container(
+                    height: 200,
+                    color: AppColors.ink100,
+                    child: const Center(
+                      child: Icon(
+                        Icons.broken_image,
+                        color: AppColors.ink400,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+
+            const SizedBox(height: AppSpacing.space3),
+
+            SizedBox(
+              width: double.infinity,
+              child: OutlinedButton.icon(
+                onPressed: pickImage,
+                icon: const Icon(Icons.image),
+                label: const Text('Ganti Gambar'),
               ),
             ),
 

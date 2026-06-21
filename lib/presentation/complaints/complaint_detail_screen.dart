@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:keluhin_mobile_app/core/constants/app_colors.dart';
+import 'package:keluhin_mobile_app/core/constants/app_radius.dart';
 import 'package:keluhin_mobile_app/core/constants/app_spacing.dart';
 import 'package:keluhin_mobile_app/core/constants/app_text.dart';
 import 'package:keluhin_mobile_app/core/constants/app_typography.dart';
@@ -221,6 +222,31 @@ class _ComplaintDetailScreenState
             StatusBadge(status: status),
 
             const SizedBox(height: AppSpacing.space6),
+
+            // IMAGE
+            if (complaint!['image_url'] != null) ...[
+              ClipRRect(
+                borderRadius: BorderRadius.circular(AppRadius.lg),
+                child: Image.network(
+                  complaint!['image_url'],
+                  height: 200,
+                  width: double.infinity,
+                  fit: BoxFit.cover,
+                  errorBuilder: (_, __, ___) => Container(
+                    height: 200,
+                    color: AppColors.ink100,
+                    child: const Center(
+                      child: Icon(
+                        Icons.broken_image,
+                        color: AppColors.ink400,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+
+              const SizedBox(height: AppSpacing.space6),
+            ],
 
             // CATEGORY
             Card(

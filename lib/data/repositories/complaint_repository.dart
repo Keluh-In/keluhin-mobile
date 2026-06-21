@@ -49,6 +49,7 @@ class ComplaintRepository {
     required String description,
     required int categoryId,
     required String location,
+    String? attachment,
   }) async {
     return await service.updateComplaint(
       id: id,
@@ -56,6 +57,7 @@ class ComplaintRepository {
       description: description,
       categoryId: categoryId,
       location: location,
+      attachment: attachment,
     );
   }
 

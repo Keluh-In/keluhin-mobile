@@ -99,7 +99,7 @@ class ComplaintService {
             isAnonymous ? 1 : 0,
 
         if (attachment != null)
-          'attachment':
+          'image':
               await MultipartFile.fromFile(
                 attachment,
               ),
@@ -131,20 +131,33 @@ class ComplaintService {
     required String description,
     required int categoryId,
     required String location,
+    String? attachment,
   }) async {
     try {
       final token =
           await Storage.getToken();
 
-      await dio.put(
+      // Method spoofing: Laravel tidak mem-parse file pada PUT multipart,
+      // jadi kirim POST + _method=PUT.
+      FormData formData =
+          FormData.fromMap({
+        'title': title,
+        'description': description,
+        'category_id': categoryId,
+        'location': location,
+        '_method': 'PUT',
+
+        if (attachment != null)
+          'image':
+              await MultipartFile.fromFile(
+                attachment,
+              ),
+      });
+
+      await dio.post(
         '${ApiConfig.complaints}/$id',
 
-        data: {
-          'title': title,
-          'description': description,
-          'category_id': categoryId,
-          'location': location,
-        },
+        data: formData,
 
         options: Options(
           headers: {
