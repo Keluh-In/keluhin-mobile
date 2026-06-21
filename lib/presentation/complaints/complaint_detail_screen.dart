@@ -118,8 +118,8 @@ class _ComplaintDetailScreenState
         complaint!['status'] ?? '';
 
     final canEdit =
-        status ==
-        AppText.waiting;
+        status.toString().toLowerCase() ==
+        AppText.waiting.toLowerCase();
 
     return Scaffold(
       appBar: AppBar(
