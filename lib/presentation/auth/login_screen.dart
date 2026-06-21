@@ -72,7 +72,7 @@ void dispose() {
       backgroundColor: AppColors.background,
       appBar: AppBar(
         elevation: 0,
-        title: const Text(AppText.login),
+        title: const Text('KeluhIn'),
       ),
       body: Padding(
         padding: const EdgeInsets.all(AppSpacing.space5),
@@ -81,7 +81,7 @@ void dispose() {
           children: [
             // Wordmark logo — pengecualian Bold (700).
             Text(
-              'KELUH.IN',
+              'KeluhIn',
               style: AppTypography.heading1.copyWith(fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: AppSpacing.space8),
