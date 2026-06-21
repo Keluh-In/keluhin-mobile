@@ -29,6 +29,29 @@ class ComplaintService {
     }
   }
 
+  // STATS
+  Future<Map<String, dynamic>> getStats() async {
+    try {
+      final token =
+          await Storage.getToken();
+
+      final response = await dio.get(
+        ApiConfig.complaintStats,
+
+        options: Options(
+          headers: {
+            'Authorization':
+                'Bearer $token',
+          },
+        ),
+      );
+
+      return response.data['data'];
+    } catch (e) {
+      rethrow;
+    }
+  }
+
   // DETAIL
   Future<Map<String, dynamic>>
   getComplaintDetail(int id) async {

@@ -1,3 +1,4 @@
+import '../models/complaint_stats_model.dart';
 import '../services/complaint_service.dart';
 
 class ComplaintRepository {
@@ -7,6 +8,12 @@ class ComplaintRepository {
   // GET ALL
   Future<List> getComplaints() async {
     return await service.getComplaints();
+  }
+
+  // STATS
+  Future<ComplaintStatsModel> getStats() async {
+    final data = await service.getStats();
+    return ComplaintStatsModel.fromJson(data);
   }
 
   // DETAIL

@@ -15,6 +15,7 @@ class ApiConfig {
 
   // COMPLAINT
   static const String complaints = '$baseUrl/complaints';
+  static const String complaintStats = '$baseUrl/complaints/stats';
 
   // RESPONSE
   static const String responses = '$baseUrl/responses';

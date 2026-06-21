@@ -6,6 +6,7 @@ import '../../core/constants/app_radius.dart';
 import '../../core/constants/app_spacing.dart';
 import '../../core/constants/app_text.dart';
 import '../../core/constants/app_typography.dart';
+import '../../data/models/complaint_stats_model.dart';
 import '../../data/repositories/complaint_repository.dart';
 import '../complaints/complaint_list_screen.dart';
 import '../profile/profile_screen.dart';
@@ -83,10 +84,7 @@ class _DashboardContentTabState extends State<DashboardContentTab> {
   List complaints = [];
   bool loading = true;
 
-  int waiting = 0;
-  int processing = 0;
-  int completed = 0;
-  int rejected = 0;
+  ComplaintStatsModel? stats;
 
   @override
   void initState() {
@@ -96,12 +94,15 @@ class _DashboardContentTabState extends State<DashboardContentTab> {
 
   Future<void> getDashboardData() async {
     try {
-      final data = await repository.getComplaints();
-      
+      final results = await Future.wait([
+        repository.getStats(),
+        repository.getComplaints(),
+      ]);
+
       if (mounted) {
-        calculateStatus(data);
         setState(() {
-          complaints = data;
+          stats = results[0] as ComplaintStatsModel;
+          complaints = results[1] as List;
           loading = false;
         });
       }
@@ -136,7 +137,11 @@ class _DashboardContentTabState extends State<DashboardContentTab> {
     // LANGKAH 1: Langsung masukkan ke UI tanpa nunggu API Laragon merespon
     setState(() {
       complaints.insert(0, temporaryComplaint);
-      calculateStatus(complaints);
+      // Optimistic: pengaduan baru selalu berstatus "menunggu"
+      stats = stats?.copyWith(
+        total: (stats?.total ?? 0) + 1,
+        menunggu: (stats?.menunggu ?? 0) + 1,
+      );
     });
 
     try {
@@ -163,9 +168,13 @@ class _DashboardContentTabState extends State<DashboardContentTab> {
       if (mounted) {
         setState(() {
           complaints.removeWhere((element) => element['id'] == temporaryComplaint['id']);
-          calculateStatus(complaints);
+          // Rollback statistik optimistic
+          stats = stats?.copyWith(
+            total: (stats?.total ?? 1) - 1,
+            menunggu: (stats?.menunggu ?? 1) - 1,
+          );
         });
-        
+
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
             content: Text('Koneksi terputus atau backend error! Pengaduan gagal diupload.'),
@@ -174,13 +183,6 @@ class _DashboardContentTabState extends State<DashboardContentTab> {
         );
       }
     }
-  }
-
-  void calculateStatus(List data) {
-    waiting = data.where((item) => item['status'] == AppText.waiting).length;
-    processing = data.where((item) => item['status'] == AppText.processing).length;
-    completed = data.where((item) => item['status'] == AppText.completed).length;
-    rejected = data.where((item) => item['status'] == AppText.rejected).length;
   }
 
   @override
@@ -259,7 +261,7 @@ class _DashboardContentTabState extends State<DashboardContentTab> {
                         borderRadius: BorderRadius.circular(AppRadius.full),
                       ),
                       child: Text(
-                        'Total Pengaduan: ${complaints.length}',
+                        'Total Pengaduan: ${stats?.total ?? 0}',
                         style: AppTypography.bodySmall.copyWith(
                           color: AppColors.white,
                           fontWeight: FontWeight.w500,
@@ -290,25 +292,25 @@ class _DashboardContentTabState extends State<DashboardContentTab> {
                 children: [
                   buildStatCard(
                     title: 'Menunggu',
-                    total: waiting.toString(),
+                    total: (stats?.menunggu ?? 0).toString(),
                     color: AppColors.warning,
                     icon: Icons.access_time_rounded,
                   ),
                   buildStatCard(
                     title: 'Diproses',
-                    total: processing.toString(),
+                    total: (stats?.diproses ?? 0).toString(),
                     color: AppColors.info,
                     icon: Icons.sync_rounded,
                   ),
                   buildStatCard(
                     title: 'Selesai',
-                    total: completed.toString(),
+                    total: (stats?.selesai ?? 0).toString(),
                     color: AppColors.success,
                     icon: Icons.check_circle_rounded,
                   ),
                   buildStatCard(
                     title: 'Ditolak',
-                    total: rejected.toString(),
+                    total: (stats?.ditolak ?? 0).toString(),
                     color: AppColors.danger,
                     icon: Icons.cancel_rounded,
                   ),
