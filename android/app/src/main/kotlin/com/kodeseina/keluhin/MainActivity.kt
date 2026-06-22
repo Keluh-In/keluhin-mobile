@@ -1,4 +1,4 @@
-package com.example.flutter_aplication_1
+package com.kodeseina.keluhin
 
 import io.flutter.embedding.android.FlutterActivity
 

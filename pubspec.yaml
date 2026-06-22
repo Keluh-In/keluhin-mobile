@@ -26,6 +26,7 @@ dev_dependencies:
   # Hapus flutter_launcher_name jadul, sisakan 2 ini yang sudah support Null Safety
   flutter_launcher_icons: ^0.13.1
   flutter_native_splash: ^2.4.0
+  change_app_package_name: ^1.5.0
 
 # --- REVISI KONFIGURASI ICON ---
 flutter_launcher_icons:
