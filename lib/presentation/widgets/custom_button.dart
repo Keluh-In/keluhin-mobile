@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
-import 'package:keluhin_mobile_app/core/constants/app_colors.dart';
-import 'package:keluhin_mobile_app/core/constants/app_radius.dart';
-import 'package:keluhin_mobile_app/core/constants/app_spacing.dart';
-import 'package:keluhin_mobile_app/core/constants/app_typography.dart';
+import 'package:Keluhin/core/constants/app_colors.dart';
+import 'package:Keluhin/core/constants/app_radius.dart';
+import 'package:Keluhin/core/constants/app_spacing.dart';
+import 'package:Keluhin/core/constants/app_typography.dart';
 
 class CustomButton extends StatelessWidget {
   final String text;
@@ -42,65 +42,44 @@ class CustomButton extends StatelessWidget {
 
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(
-          backgroundColor:
-              backgroundColor ??
-                  AppColors.primary,
+          backgroundColor: backgroundColor ?? AppColors.primary,
 
           shape: RoundedRectangleBorder(
-            borderRadius:
-                BorderRadius.circular(
-              borderRadius,
-            ),
+            borderRadius: BorderRadius.circular(borderRadius),
           ),
 
           elevation: 0,
         ),
 
-        onPressed:
-            loading
-                ? null
-                : onPressed,
+        onPressed: loading ? null : onPressed,
 
-        child:
-            loading
-                ? const SizedBox(
-                  width: 22,
-                  height: 22,
-                  child:
-                      CircularProgressIndicator(
-                    strokeWidth: 2.5,
-                    color: AppColors.white,
-                  ),
-                )
-                : Row(
-                  mainAxisAlignment:
-                      MainAxisAlignment
-                          .center,
-
-                  children: [
-                    if (icon != null) ...[
-                      Icon(
-                        icon,
-                        color:
-                            textColor ??
-                                AppColors.white,
-                      ),
-
-                      const SizedBox(
-                        width: AppSpacing.space2,
-                      ),
-                    ],
-
-                    Text(
-                      text,
-                      style: AppTypography.button.copyWith(
-                        color:
-                            textColor ??
-                                AppColors.white,
-                      ),
-                    ),
-                  ],
+        child: loading
+            ? const SizedBox(
+                width: 22,
+                height: 22,
+                child: CircularProgressIndicator(
+                  strokeWidth: 2.5,
+                  color: AppColors.white,
                 ),
+              )
+            : Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+
+                children: [
+                  if (icon != null) ...[
+                    Icon(icon, color: textColor ?? AppColors.white),
+
+                    const SizedBox(width: AppSpacing.space2),
+                  ],
+
+                  Text(
+                    text,
+                    style: AppTypography.button.copyWith(
+                      color: textColor ?? AppColors.white,
+                    ),
+                  ),
+                ],
+              ),
       ),
     );
   }

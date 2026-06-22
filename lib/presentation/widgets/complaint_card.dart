@@ -1,22 +1,18 @@
 import 'package:flutter/material.dart';
 
-import 'package:keluhin_mobile_app/core/constants/app_colors.dart';
-import 'package:keluhin_mobile_app/core/constants/app_radius.dart';
-import 'package:keluhin_mobile_app/core/constants/app_spacing.dart';
-import 'package:keluhin_mobile_app/core/constants/app_typography.dart';
-import 'package:keluhin_mobile_app/core/utils/helper.dart';
-import 'package:keluhin_mobile_app/presentation/widgets/status_badge.dart';
+import 'package:Keluhin/core/constants/app_colors.dart';
+import 'package:Keluhin/core/constants/app_radius.dart';
+import 'package:Keluhin/core/constants/app_spacing.dart';
+import 'package:Keluhin/core/constants/app_typography.dart';
+import 'package:Keluhin/core/utils/helper.dart';
+import 'package:Keluhin/presentation/widgets/status_badge.dart';
 
 class ComplaintCard extends StatelessWidget {
   final Map<String, dynamic> complaint;
 
   final VoidCallback? onTap;
 
-  const ComplaintCard({
-    super.key,
-    required this.complaint,
-    this.onTap,
-  });
+  const ComplaintCard({super.key, required this.complaint, this.onTap});
 
   Widget _metaRow(IconData icon, String text, {bool expand = false}) {
     final label = Text(
@@ -67,10 +63,7 @@ class ComplaintCard extends StatelessWidget {
               const SizedBox(height: AppSpacing.space4),
 
               // CATEGORY
-              _metaRow(
-                Icons.category,
-                complaint['category']?['name'] ?? '-',
-              ),
+              _metaRow(Icons.category, complaint['category']?['name'] ?? '-'),
 
               const SizedBox(height: AppSpacing.space2),
 
@@ -96,7 +89,9 @@ class ComplaintCard extends StatelessWidget {
                 complaint['description'] ?? '-',
                 maxLines: 2,
                 overflow: TextOverflow.ellipsis,
-                style: AppTypography.bodySmall.copyWith(color: AppColors.ink600),
+                style: AppTypography.bodySmall.copyWith(
+                  color: AppColors.ink600,
+                ),
               ),
 
               const SizedBox(height: AppSpacing.space4),

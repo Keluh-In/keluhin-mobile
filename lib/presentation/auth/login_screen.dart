@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:keluhin_mobile_app/core/constants/app_colors.dart';
-import 'package:keluhin_mobile_app/core/constants/app_spacing.dart';
-import 'package:keluhin_mobile_app/core/constants/app_text.dart';
-import 'package:keluhin_mobile_app/core/constants/app_typography.dart';
-import 'package:keluhin_mobile_app/core/utils/helper.dart';
+import 'package:Keluhin/core/constants/app_colors.dart';
+import 'package:Keluhin/core/constants/app_spacing.dart';
+import 'package:Keluhin/core/constants/app_text.dart';
+import 'package:Keluhin/core/constants/app_typography.dart';
+import 'package:Keluhin/core/utils/helper.dart';
 
 import '../../data/repositories/auth_repository.dart';
 
@@ -21,8 +21,8 @@ class _LoginScreenState extends State<LoginScreen> {
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
 
-bool loading = false;
-bool isPasswordHidden = true;
+  bool loading = false;
+  bool isPasswordHidden = true;
 
   final AuthRepository repository = AuthRepository();
 
@@ -50,30 +50,25 @@ bool isPasswordHidden = true;
     if (success) {
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(
-          builder: (_) => const DashboardScreen(),
-        ),
+        MaterialPageRoute(builder: (_) => const DashboardScreen()),
       );
     } else {
       Helper.errorMessage(context, AppText.failedLogin);
     }
   }
 
-@override
-void dispose() {
-  emailController.dispose();
-  passwordController.dispose();
-  super.dispose();
-}
+  @override
+  void dispose() {
+    emailController.dispose();
+    passwordController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.background,
-      appBar: AppBar(
-        elevation: 0,
-        title: const Text('KeluhIn'),
-      ),
+      appBar: AppBar(elevation: 0, title: const Text('KeluhIn')),
       body: Padding(
         padding: const EdgeInsets.all(AppSpacing.space5),
         child: Column(
@@ -82,36 +77,33 @@ void dispose() {
             // Wordmark logo — pengecualian Bold (700).
             Text(
               'KeluhIn',
-              style: AppTypography.heading1.copyWith(fontWeight: FontWeight.bold),
+              style: AppTypography.heading1.copyWith(
+                fontWeight: FontWeight.bold,
+              ),
             ),
             const SizedBox(height: AppSpacing.space8),
             TextField(
               controller: emailController,
-              decoration: const InputDecoration(
-                labelText: 'Email',
-              ),
+              decoration: const InputDecoration(labelText: 'Email'),
             ),
             const SizedBox(height: AppSpacing.space4),
             TextField(
-  controller: passwordController,
-  obscureText: isPasswordHidden,
-  decoration: InputDecoration(
-    labelText: 'Password',
-    suffixIcon: IconButton(
-      icon: Icon(
-        isPasswordHidden
-            ? Icons.visibility_off
-            : Icons.visibility,
-      ),
-      onPressed: () {
-        setState(() {
-          isPasswordHidden =
-              !isPasswordHidden;
-        });
-      },
-    ),
-  ),
-),
+              controller: passwordController,
+              obscureText: isPasswordHidden,
+              decoration: InputDecoration(
+                labelText: 'Password',
+                suffixIcon: IconButton(
+                  icon: Icon(
+                    isPasswordHidden ? Icons.visibility_off : Icons.visibility,
+                  ),
+                  onPressed: () {
+                    setState(() {
+                      isPasswordHidden = !isPasswordHidden;
+                    });
+                  },
+                ),
+              ),
+            ),
             const SizedBox(height: AppSpacing.space6),
             SizedBox(
               width: double.infinity,
@@ -133,9 +125,7 @@ void dispose() {
               onPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(
-                    builder: (_) => const RegisterScreen(),
-                  ),
+                  MaterialPageRoute(builder: (_) => const RegisterScreen()),
                 );
               },
               child: const Text(AppText.register),

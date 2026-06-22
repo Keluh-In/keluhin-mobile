@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
-import 'package:keluhin_mobile_app/core/constants/app_colors.dart';
-import 'package:keluhin_mobile_app/core/constants/app_radius.dart';
-import 'package:keluhin_mobile_app/core/constants/app_spacing.dart';
-import 'package:keluhin_mobile_app/core/constants/app_typography.dart';
+import 'package:Keluhin/core/constants/app_colors.dart';
+import 'package:Keluhin/core/constants/app_radius.dart';
+import 'package:Keluhin/core/constants/app_spacing.dart';
+import 'package:Keluhin/core/constants/app_typography.dart';
 
 class StatCard extends StatelessWidget {
   final String title;
@@ -50,10 +50,7 @@ class StatCard extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  Text(
-                    value,
-                    style: AppTypography.heading2,
-                  ),
+                  Text(value, style: AppTypography.heading2),
                   const SizedBox(height: 2),
                   Text(
                     title,

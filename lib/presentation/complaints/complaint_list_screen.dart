@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:keluhin_mobile_app/core/constants/app_colors.dart';
-import 'package:keluhin_mobile_app/core/constants/app_spacing.dart';
-import 'package:keluhin_mobile_app/core/constants/app_text.dart';
+import 'package:Keluhin/core/constants/app_colors.dart';
+import 'package:Keluhin/core/constants/app_spacing.dart';
+import 'package:Keluhin/core/constants/app_text.dart';
 
 import '../../data/repositories/complaint_repository.dart';
 
@@ -50,43 +50,39 @@ class _ComplaintListScreenState extends State<ComplaintListScreen> {
     return Scaffold(
       backgroundColor: AppColors.background,
 
-      appBar: AppBar(
-        elevation: 0,
-        title: const Text(AppText.complaints),
-      ),
+      appBar: AppBar(elevation: 0, title: const Text(AppText.complaints)),
 
       body: loading
           ? const Center(child: CircularProgressIndicator())
           : complaints.isEmpty
-              ? const Center(child: Text(AppText.noData))
-              : RefreshIndicator(
-                  onRefresh: () => getComplaints(),
-                  child: ListView.builder(
-                    padding: const EdgeInsets.all(AppSpacing.space4),
-                    itemCount: complaints.length,
-                    itemBuilder: (context, index) {
-                      final item = complaints[index];
+          ? const Center(child: Text(AppText.noData))
+          : RefreshIndicator(
+              onRefresh: () => getComplaints(),
+              child: ListView.builder(
+                padding: const EdgeInsets.all(AppSpacing.space4),
+                itemCount: complaints.length,
+                itemBuilder: (context, index) {
+                  final item = complaints[index];
 
-                      return ComplaintCard(
-                        complaint: Map<String, dynamic>.from(item),
-                        onTap: () async {
-                          final result = await Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (_) => ComplaintDetailScreen(
-                                complaintId: item['id'],
-                              ),
-                            ),
-                          );
-
-                          if (result == true) {
-                            getComplaints();
-                          }
-                        },
+                  return ComplaintCard(
+                    complaint: Map<String, dynamic>.from(item),
+                    onTap: () async {
+                      final result = await Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (_) =>
+                              ComplaintDetailScreen(complaintId: item['id']),
+                        ),
                       );
+
+                      if (result == true) {
+                        getComplaints();
+                      }
                     },
-                  ),
-                ),
+                  );
+                },
+              ),
+            ),
 
       floatingActionButton: FloatingActionButton(
         backgroundColor: AppColors.primary,
@@ -94,9 +90,7 @@ class _ComplaintListScreenState extends State<ComplaintListScreen> {
         onPressed: () async {
           final result = await Navigator.push(
             context,
-            MaterialPageRoute(
-              builder: (_) => const CreateComplaintScreen(),
-            ),
+            MaterialPageRoute(builder: (_) => const CreateComplaintScreen()),
           );
 
           if (result == true) {

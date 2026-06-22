@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import 'package:keluhin_mobile_app/core/constants/app_radius.dart';
-import 'package:keluhin_mobile_app/core/utils/helper.dart';
+import 'package:Keluhin/core/constants/app_radius.dart';
+import 'package:Keluhin/core/utils/helper.dart';
 
 /// Badge status pengaduan — pill dengan titik berwarna + label.
 /// Aturan design system: jangan andalkan warna saja (buta warna).

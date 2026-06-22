@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:keluhin_mobile_app/core/constants/app_colors.dart';
-import 'package:keluhin_mobile_app/core/constants/app_spacing.dart';
-import 'package:keluhin_mobile_app/core/constants/app_text.dart';
-import 'package:keluhin_mobile_app/core/constants/app_typography.dart';
+import 'package:Keluhin/core/constants/app_colors.dart';
+import 'package:Keluhin/core/constants/app_spacing.dart';
+import 'package:Keluhin/core/constants/app_text.dart';
+import 'package:Keluhin/core/constants/app_typography.dart';
 
-import 'package:keluhin_mobile_app/core/utils/helper.dart';
+import 'package:Keluhin/core/utils/helper.dart';
 
 import '../../data/repositories/auth_repository.dart';
 
@@ -14,52 +14,37 @@ class RegisterScreen extends StatefulWidget {
   const RegisterScreen({super.key});
 
   @override
-  State<RegisterScreen> createState() =>
-      _RegisterScreenState();
+  State<RegisterScreen> createState() => _RegisterScreenState();
 }
 
-class _RegisterScreenState
-    extends State<RegisterScreen> {
-  final nameController =
-      TextEditingController();
+class _RegisterScreenState extends State<RegisterScreen> {
+  final nameController = TextEditingController();
 
-  final emailController =
-      TextEditingController();
+  final emailController = TextEditingController();
 
-  final passwordController =
-      TextEditingController();
+  final passwordController = TextEditingController();
 
-  final confirmPasswordController =
-      TextEditingController();
+  final confirmPasswordController = TextEditingController();
 
   bool loading = false;
 
   bool isPasswordHidden = true;
   bool isConfirmPasswordHidden = true;
 
-  final AuthRepository repository =
-    AuthRepository();
+  final AuthRepository repository = AuthRepository();
 
   Future register() async {
     if (nameController.text.isEmpty ||
         emailController.text.isEmpty ||
         passwordController.text.isEmpty ||
-        confirmPasswordController
-            .text.isEmpty) {
-      Helper.errorMessage(
-        context,
-        AppText.requiredField,
-      );
+        confirmPasswordController.text.isEmpty) {
+      Helper.errorMessage(context, AppText.requiredField);
 
       return;
     }
 
-    if (passwordController.text !=
-        confirmPasswordController.text) {
-      Helper.errorMessage(
-        context,
-        'Password tidak sama',
-      );
+    if (passwordController.text != confirmPasswordController.text) {
+      Helper.errorMessage(context, 'Password tidak sama');
 
       return;
     }
@@ -68,8 +53,7 @@ class _RegisterScreenState
       loading = true;
     });
 
-    bool success =
-        await repository.register(
+    bool success = await repository.register(
       name: nameController.text,
       email: emailController.text,
       password: passwordController.text,
@@ -82,70 +66,49 @@ class _RegisterScreenState
     if (!mounted) return;
 
     if (success) {
-      Helper.successMessage(
-        context,
-        AppText.successRegister,
-      );
+      Helper.successMessage(context, AppText.successRegister);
 
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(
-          builder: (_) =>
-              const LoginScreen(),
-        ),
+        MaterialPageRoute(builder: (_) => const LoginScreen()),
       );
     } else {
-      Helper.errorMessage(
-        context,
-        AppText.failedRegister,
-      );
+      Helper.errorMessage(context, AppText.failedRegister);
     }
   }
 
-@override
-void dispose() {
-  nameController.dispose();
-  emailController.dispose();
-  passwordController.dispose();
-  confirmPasswordController.dispose();
-  super.dispose();
-}
+  @override
+  void dispose() {
+    nameController.dispose();
+    emailController.dispose();
+    passwordController.dispose();
+    confirmPasswordController.dispose();
+    super.dispose();
+  }
 
-@override
-Widget build(BuildContext context) {
-  return Scaffold(
-    backgroundColor:
-        AppColors.background,
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: AppColors.background,
 
-      appBar: AppBar(
-        elevation: 0,
-        title: const Text(
-          AppText.register,
-        ),
-      ),
+      appBar: AppBar(elevation: 0, title: const Text(AppText.register)),
 
       body: SingleChildScrollView(
-        padding:
-            const EdgeInsets.all(AppSpacing.space5),
+        padding: const EdgeInsets.all(AppSpacing.space5),
 
         child: Column(
-          crossAxisAlignment:
-              CrossAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
 
           children: [
             const SizedBox(height: AppSpacing.space5),
 
-            Text(
-              'Buat Akun Baru',
-              style: AppTypography.heading2,
-            ),
+            Text('Buat Akun Baru', style: AppTypography.heading2),
 
             const SizedBox(height: AppSpacing.space2),
 
             Text(
               'Daftar untuk mulai membuat pengaduan',
-              style: AppTypography.bodySmall
-                  .copyWith(color: AppColors.ink500),
+              style: AppTypography.bodySmall.copyWith(color: AppColors.ink500),
             ),
 
             const SizedBox(height: AppSpacing.space10),
@@ -173,68 +136,55 @@ Widget build(BuildContext context) {
 
             const SizedBox(height: AppSpacing.space5),
 
-           // PASSWORD
-TextField(
-  controller: passwordController,
-  obscureText: isPasswordHidden,
-  decoration: InputDecoration(
-    labelText: AppText.password,
-    prefixIcon: const Icon(
-      Icons.lock,
-    ),
-    suffixIcon: IconButton(
-      icon: Icon(
-        isPasswordHidden
-            ? Icons.visibility_off
-            : Icons.visibility,
-      ),
-      onPressed: () {
-        setState(() {
-          isPasswordHidden =
-              !isPasswordHidden;
-        });
-      },
-    ),
-    border: OutlineInputBorder(
-      borderRadius:
-          BorderRadius.circular(12),
-    ),
-  ),
-),
+            // PASSWORD
+            TextField(
+              controller: passwordController,
+              obscureText: isPasswordHidden,
+              decoration: InputDecoration(
+                labelText: AppText.password,
+                prefixIcon: const Icon(Icons.lock),
+                suffixIcon: IconButton(
+                  icon: Icon(
+                    isPasswordHidden ? Icons.visibility_off : Icons.visibility,
+                  ),
+                  onPressed: () {
+                    setState(() {
+                      isPasswordHidden = !isPasswordHidden;
+                    });
+                  },
+                ),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(12),
+                ),
+              ),
+            ),
 
             const SizedBox(height: AppSpacing.space5),
 
             // CONFIRM PASSWORD
-TextField(
-  controller:
-      confirmPasswordController,
-  obscureText:
-      isConfirmPasswordHidden,
-  decoration: InputDecoration(
-    labelText:
-        AppText.confirmPassword,
-    prefixIcon: const Icon(
-      Icons.lock_outline,
-    ),
-    suffixIcon: IconButton(
-      icon: Icon(
-        isConfirmPasswordHidden
-            ? Icons.visibility_off
-            : Icons.visibility,
-      ),
-      onPressed: () {
-        setState(() {
-          isConfirmPasswordHidden =
-              !isConfirmPasswordHidden;
-        });
-      },
-    ),
-    border: OutlineInputBorder(
-      borderRadius:
-          BorderRadius.circular(12),
-    ),
-  ),
-),
+            TextField(
+              controller: confirmPasswordController,
+              obscureText: isConfirmPasswordHidden,
+              decoration: InputDecoration(
+                labelText: AppText.confirmPassword,
+                prefixIcon: const Icon(Icons.lock_outline),
+                suffixIcon: IconButton(
+                  icon: Icon(
+                    isConfirmPasswordHidden
+                        ? Icons.visibility_off
+                        : Icons.visibility,
+                  ),
+                  onPressed: () {
+                    setState(() {
+                      isConfirmPasswordHidden = !isConfirmPasswordHidden;
+                    });
+                  },
+                ),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(12),
+                ),
+              ),
+            ),
 
             const SizedBox(height: AppSpacing.space8),
 
@@ -258,25 +208,17 @@ TextField(
             const SizedBox(height: AppSpacing.space6),
 
             Row(
-              mainAxisAlignment:
-                  MainAxisAlignment
-                      .center,
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                const Text(
-                  'Sudah punya akun?',
-                ),
+                const Text('Sudah punya akun?'),
                 TextButton(
                   onPressed: () {
-                    Navigator.pop(
-                      context,
-                    );
+                    Navigator.pop(context);
                   },
-                  child: const Text(
-                    AppText.login,
-                  ),
+                  child: const Text(AppText.login),
                 ),
               ],
-            )
+            ),
           ],
         ),
       ),

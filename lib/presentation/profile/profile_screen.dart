@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
-import 'package:keluhin_mobile_app/core/constants/app_colors.dart';
-import 'package:keluhin_mobile_app/core/constants/app_radius.dart';
-import 'package:keluhin_mobile_app/core/constants/app_spacing.dart';
-import 'package:keluhin_mobile_app/core/constants/app_text.dart';
-import 'package:keluhin_mobile_app/core/constants/app_typography.dart';
-import 'package:keluhin_mobile_app/core/utils/helper.dart';
+import 'package:Keluhin/core/constants/app_colors.dart';
+import 'package:Keluhin/core/constants/app_radius.dart';
+import 'package:Keluhin/core/constants/app_spacing.dart';
+import 'package:Keluhin/core/constants/app_text.dart';
+import 'package:Keluhin/core/constants/app_typography.dart';
+import 'package:Keluhin/core/utils/helper.dart';
 import '../../core/utils/storage.dart';
 
 import '../../data/repositories/profile_repository.dart';
@@ -14,19 +14,14 @@ import '../auth/login_screen.dart';
 import 'edit_profile_screen.dart';
 
 class ProfileScreen extends StatefulWidget {
-  const ProfileScreen({
-    super.key,
-  });
+  const ProfileScreen({super.key});
 
   @override
-  State<ProfileScreen> createState() =>
-      _ProfileScreenState();
+  State<ProfileScreen> createState() => _ProfileScreenState();
 }
 
-class _ProfileScreenState
-    extends State<ProfileScreen> {
-  final ProfileRepository repository =
-      ProfileRepository();
+class _ProfileScreenState extends State<ProfileScreen> {
+  final ProfileRepository repository = ProfileRepository();
 
   Map<String, dynamic>? user;
 
@@ -41,8 +36,7 @@ class _ProfileScreenState
 
   Future getProfile() async {
     try {
-      final data =
-          await repository.getProfile();
+      final data = await repository.getProfile();
 
       setState(() {
         user = data;
@@ -55,10 +49,7 @@ class _ProfileScreenState
 
       if (!mounted) return;
 
-      Helper.errorMessage(
-        context,
-        'Gagal mengambil profile',
-      );
+      Helper.errorMessage(context, 'Gagal mengambil profile');
     }
   }
 
@@ -70,17 +61,11 @@ class _ProfileScreenState
 
       Navigator.pushAndRemoveUntil(
         context,
-        MaterialPageRoute(
-          builder:
-              (_) => const LoginScreen(),
-        ),
+        MaterialPageRoute(builder: (_) => const LoginScreen()),
         (route) => false,
       );
     } catch (e) {
-      Helper.errorMessage(
-        context,
-        'Logout gagal',
-      );
+      Helper.errorMessage(context, 'Logout gagal');
     }
   }
 
@@ -91,30 +76,18 @@ class _ProfileScreenState
     Color? color,
   }) {
     return Card(
-      margin: const EdgeInsets.only(
-        bottom: AppSpacing.space3,
-      ),
+      margin: const EdgeInsets.only(bottom: AppSpacing.space3),
 
       child: ListTile(
         leading: CircleAvatar(
-          backgroundColor:
-              (color ?? AppColors.primary)
-                  .withValues(alpha: 0.1),
+          backgroundColor: (color ?? AppColors.primary).withValues(alpha: 0.1),
 
-          child: Icon(
-            icon,
-            color:
-                color ??
-                AppColors.primary,
-          ),
+          child: Icon(icon, color: color ?? AppColors.primary),
         ),
 
         title: Text(title, style: AppTypography.body),
 
-        trailing: const Icon(
-          Icons.arrow_forward_ios,
-          size: 16,
-        ),
+        trailing: const Icon(Icons.arrow_forward_ios, size: 16),
 
         onTap: onTap,
       ),
@@ -124,34 +97,21 @@ class _ProfileScreenState
   @override
   Widget build(BuildContext context) {
     if (loading) {
-      return const Scaffold(
-        body: Center(
-          child:
-              CircularProgressIndicator(),
-        ),
-      );
+      return const Scaffold(body: Center(child: CircularProgressIndicator()));
     }
 
     return Scaffold(
-      backgroundColor:
-          AppColors.background,
+      backgroundColor: AppColors.background,
 
-      appBar: AppBar(
-        elevation: 0,
-        title: const Text(
-          AppText.profile,
-        ),
-      ),
+      appBar: AppBar(elevation: 0, title: const Text(AppText.profile)),
 
       body: RefreshIndicator(
         onRefresh: () => getProfile(),
 
         child: SingleChildScrollView(
-          physics:
-              const AlwaysScrollableScrollPhysics(),
+          physics: const AlwaysScrollableScrollPhysics(),
 
-          padding:
-              const EdgeInsets.all(AppSpacing.space5),
+          padding: const EdgeInsets.all(AppSpacing.space5),
 
           child: Column(
             children: [
@@ -159,13 +119,11 @@ class _ProfileScreenState
               Container(
                 width: double.infinity,
 
-                padding:
-                    const EdgeInsets.all(AppSpacing.space6),
+                padding: const EdgeInsets.all(AppSpacing.space6),
 
                 decoration: BoxDecoration(
                   color: AppColors.primary,
-                  borderRadius:
-                      BorderRadius.circular(AppRadius.xl),
+                  borderRadius: BorderRadius.circular(AppRadius.xl),
                 ),
 
                 child: Column(
@@ -185,16 +143,18 @@ class _ProfileScreenState
 
                     Text(
                       user?['name'] ?? '-',
-                      style: AppTypography.heading2
-                          .copyWith(color: AppColors.white),
+                      style: AppTypography.heading2.copyWith(
+                        color: AppColors.white,
+                      ),
                     ),
 
                     const SizedBox(height: AppSpacing.space1),
 
                     Text(
                       user?['email'] ?? '-',
-                      style: AppTypography.bodySmall
-                          .copyWith(color: AppColors.blue100),
+                      style: AppTypography.bodySmall.copyWith(
+                        color: AppColors.blue100,
+                      ),
                     ),
                   ],
                 ),
@@ -205,19 +165,13 @@ class _ProfileScreenState
               // MENU
               buildMenu(
                 icon: Icons.edit,
-                title:
-                    AppText.editProfile,
+                title: AppText.editProfile,
 
                 onTap: () async {
-                  final result =
-                      await Navigator.push(
+                  final result = await Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder:
-                          (_) =>
-                              EditProfileScreen(
-                        user: user!,
-                      ),
+                      builder: (_) => EditProfileScreen(user: user!),
                     ),
                   );
 
@@ -229,14 +183,10 @@ class _ProfileScreenState
 
               buildMenu(
                 icon: Icons.lock,
-                title:
-                    'Keamanan Akun',
+                title: 'Keamanan Akun',
 
                 onTap: () {
-                  Helper.successMessage(
-                    context,
-                    'Fitur segera hadir',
-                  );
+                  Helper.successMessage(context, 'Fitur segera hadir');
                 },
               ),
 
@@ -248,16 +198,12 @@ class _ProfileScreenState
                   showAboutDialog(
                     context: context,
 
-                    applicationName:
-                        AppText.appName,
+                    applicationName: AppText.appName,
 
-                    applicationVersion:
-                        '1.0.0',
+                    applicationVersion: '1.0.0',
 
                     children: const [
-                      Text(
-                        'Aplikasi pengaduan mahasiswa berbasis mobile.',
-                      ),
+                      Text('Aplikasi pengaduan mahasiswa berbasis mobile.'),
                     ],
                   );
                 },

@@ -1,43 +1,32 @@
 import 'package:flutter/material.dart';
 
-import 'package:keluhin_mobile_app/core/constants/app_colors.dart';
-import 'package:keluhin_mobile_app/core/constants/app_spacing.dart';
-import 'package:keluhin_mobile_app/core/constants/app_text.dart';
-import 'package:keluhin_mobile_app/core/utils/helper.dart';
+import 'package:Keluhin/core/constants/app_colors.dart';
+import 'package:Keluhin/core/constants/app_spacing.dart';
+import 'package:Keluhin/core/constants/app_text.dart';
+import 'package:Keluhin/core/utils/helper.dart';
 
 import '../../data/repositories/profile_repository.dart';
 
-class EditProfileScreen
-    extends StatefulWidget {
+class EditProfileScreen extends StatefulWidget {
   final Map<String, dynamic> user;
 
-  const EditProfileScreen({
-    super.key,
-    required this.user,
-  });
+  const EditProfileScreen({super.key, required this.user});
 
   @override
-  State<EditProfileScreen>
-      createState() =>
-          _EditProfileScreenState();
+  State<EditProfileScreen> createState() => _EditProfileScreenState();
 }
 
-class _EditProfileScreenState
-    extends State<EditProfileScreen> {
-  final nameController =
-      TextEditingController();
+class _EditProfileScreenState extends State<EditProfileScreen> {
+  final nameController = TextEditingController();
 
-  final emailController =
-      TextEditingController();
+  final emailController = TextEditingController();
 
-  final passwordController =
-      TextEditingController();
+  final passwordController = TextEditingController();
 
   bool loading = false;
   bool isPasswordHidden = true;
 
-  final ProfileRepository repository =
-      ProfileRepository();
+  final ProfileRepository repository = ProfileRepository();
 
   @override
   void initState() {
@@ -47,20 +36,14 @@ class _EditProfileScreenState
   }
 
   void setInitialData() {
-    nameController.text =
-        widget.user['name'] ?? '';
+    nameController.text = widget.user['name'] ?? '';
 
-    emailController.text =
-        widget.user['email'] ?? '';
+    emailController.text = widget.user['email'] ?? '';
   }
 
   Future updateProfile() async {
-    if (nameController.text.isEmpty ||
-        emailController.text.isEmpty) {
-      Helper.errorMessage(
-        context,
-        AppText.requiredField,
-      );
+    if (nameController.text.isEmpty || emailController.text.isEmpty) {
+      Helper.errorMessage(context, AppText.requiredField);
 
       return;
     }
@@ -69,14 +52,12 @@ class _EditProfileScreenState
       loading = true;
     });
 
-    bool success =
-        await repository.updateProfile(
+    bool success = await repository.updateProfile(
       name: nameController.text,
       email: emailController.text,
-      password:
-          passwordController.text.isEmpty
-              ? null
-              : passwordController.text,
+      password: passwordController.text.isEmpty
+          ? null
+          : passwordController.text,
     );
 
     setState(() {
@@ -86,66 +67,46 @@ class _EditProfileScreenState
     if (!mounted) return;
 
     if (success) {
-      Helper.successMessage(
-        context,
-        'Profile berhasil diperbarui',
-      );
+      Helper.successMessage(context, 'Profile berhasil diperbarui');
 
       Navigator.pop(context, true);
     } else {
-      Helper.errorMessage(
-        context,
-        'Gagal memperbarui profile',
-      );
+      Helper.errorMessage(context, 'Gagal memperbarui profile');
     }
   }
 
-  InputDecoration decoration(
-    String label,
-    IconData icon,
-  ) {
+  InputDecoration decoration(String label, IconData icon) {
     // Border/radius mengikuti inputDecorationTheme (token radius-md).
-    return InputDecoration(
-      labelText: label,
-      prefixIcon: Icon(icon),
-    );
+    return InputDecoration(labelText: label, prefixIcon: Icon(icon));
   }
-@override
-void dispose() {
-  nameController.dispose();
-  emailController.dispose();
-  passwordController.dispose();
-  super.dispose();
-}
+
+  @override
+  void dispose() {
+    nameController.dispose();
+    emailController.dispose();
+    passwordController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor:
-          AppColors.background,
+      backgroundColor: AppColors.background,
 
-      appBar: AppBar(
-        elevation: 0,
-        title: const Text(
-          AppText.editProfile,
-        ),
-      ),
+      appBar: AppBar(elevation: 0, title: const Text(AppText.editProfile)),
 
       body: SingleChildScrollView(
-        padding:
-            const EdgeInsets.all(AppSpacing.space5),
+        padding: const EdgeInsets.all(AppSpacing.space5),
 
         child: Column(
-          crossAxisAlignment:
-              CrossAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
 
           children: [
             // PROFILE ICON
             Center(
               child: CircleAvatar(
                 radius: 50,
-                backgroundColor:
-                    AppColors.primary.withValues(alpha: 0.1),
+                backgroundColor: AppColors.primary.withValues(alpha: 0.1),
 
                 child: const Icon(
                   Icons.person,
@@ -160,10 +121,7 @@ void dispose() {
             // NAME
             TextField(
               controller: nameController,
-              decoration: decoration(
-                AppText.fullName,
-                Icons.person,
-              ),
+              decoration: decoration(AppText.fullName, Icons.person),
             ),
 
             const SizedBox(height: AppSpacing.space5),
@@ -172,38 +130,30 @@ void dispose() {
             TextField(
               controller: emailController,
               keyboardType: TextInputType.emailAddress,
-              decoration: decoration(
-                AppText.email,
-                Icons.email,
-              ),
+              decoration: decoration(AppText.email, Icons.email),
             ),
 
             const SizedBox(height: AppSpacing.space5),
 
-// PASSWORD
-TextField(
-  controller: passwordController,
-  obscureText: isPasswordHidden,
-  decoration: InputDecoration(
-    labelText: 'Password Baru (Opsional)',
-    prefixIcon: const Icon(
-      Icons.lock,
-    ),
-    suffixIcon: IconButton(
-      icon: Icon(
-        isPasswordHidden
-            ? Icons.visibility_off
-            : Icons.visibility,
-      ),
-      onPressed: () {
-        setState(() {
-          isPasswordHidden =
-              !isPasswordHidden;
-        });
-      },
-    ),
-  ),
-),
+            // PASSWORD
+            TextField(
+              controller: passwordController,
+              obscureText: isPasswordHidden,
+              decoration: InputDecoration(
+                labelText: 'Password Baru (Opsional)',
+                prefixIcon: const Icon(Icons.lock),
+                suffixIcon: IconButton(
+                  icon: Icon(
+                    isPasswordHidden ? Icons.visibility_off : Icons.visibility,
+                  ),
+                  onPressed: () {
+                    setState(() {
+                      isPasswordHidden = !isPasswordHidden;
+                    });
+                  },
+                ),
+              ),
+            ),
 
             const SizedBox(height: AppSpacing.space8),
 
